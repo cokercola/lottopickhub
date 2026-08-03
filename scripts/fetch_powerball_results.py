@@ -29,10 +29,11 @@ import requests
 API_URL = "https://data.ny.gov/resource/d6yy-54nr.json"
 OUTPUT_PATH = "data/powerball.json"
 
-# MANUALLY UPDATE THIS when you see news of a jackpot being won.
+# MANUALLY UPDATE THIS when the jackpot changes (check powerball.com).
 # See the module docstring above for why this isn't automated yet.
 LAST_JACKPOT_DATE = "2026-06-14"
 LAST_JACKPOT_AMOUNT = "$412,000,000"  # also update manually alongside the date above
+CURRENT_JACKPOT_ESTIMATE = "$150,000,000"  # shown on the homepage card - update before each drawing
 
 WHITE_BALL_COUNT = 5
 WHITE_BALL_MAX = 69
@@ -140,6 +141,7 @@ def main():
             "amount": LAST_JACKPOT_AMOUNT,
             "note": "Manually maintained - see script docstring.",
         },
+        "current_jackpot_estimate": CURRENT_JACKPOT_ESTIMATE,
         "stats_since_jackpot": stats,
         # Keep a reasonable amount of recent history for the archive
         # search feature, without bloating the JSON file with 15 years
