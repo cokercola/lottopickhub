@@ -50,6 +50,13 @@
   <div class="section-divider"></div>
 
   <div class="section">
+    <p class="section-label">Lottery news</p>
+    <div id="news-list"></div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <div class="section">
     <p class="section-label">What you can do here</p>
     <p class="section-sub"><strong>See the latest numbers</strong> — updated daily for every game we cover.</p>
     <p class="section-sub"><strong>Generate a quick pick</strong> — fully random, correctly sized for whichever game you're playing.</p>
@@ -65,6 +72,7 @@
   Historical curiosity and entertainment only — not a prediction tool.
 </div>
 
+<script src="/assets/donate.js"></script>
 <script src="/assets/header.js"></script>
 <script src="/assets/site.js"></script>
 <script>
@@ -73,6 +81,29 @@ fetchPowerballData()
     document.getElementById('home-jackpot').textContent = data.current_jackpot_estimate;
   })
   .catch(err => console.error(err));
+
+fetch('/data/lottery-news.json')
+  .then(res => res.json())
+  .then(data => {
+    const el = document.getElementById('news-list');
+    if (!data.articles || !data.articles.length) {
+      el.innerHTML = '<p class="fine-print">No recent news found.</p>';
+      return;
+    }
+    el.innerHTML = data.articles.map(a => {
+      const date = a.published ? new Date(a.published).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
+      return `
+        <div class="news-item">
+          <a href="${a.link}" target="_blank" rel="noopener">${a.title}</a>
+          <div class="news-meta">${a.source}${date ? ' · ' + date : ''}</div>
+        </div>
+      `;
+    }).join('');
+  })
+  .catch(err => {
+    console.error(err);
+    document.getElementById('news-list').innerHTML = '<p class="fine-print">Could not load news.</p>';
+  });
 </script>
 </body>
 </html>
