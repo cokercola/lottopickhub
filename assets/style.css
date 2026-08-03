@@ -362,6 +362,12 @@ a { color: inherit; }
   font-size: 12px;
   color: var(--text-muted);
 }
+.game-card .jackpot-line {
+  font-size: 13px;
+}
+.game-card .jackpot-line strong {
+  color: var(--navy);
+}
 .game-card.coming-soon {
   opacity: 0.55;
   pointer-events: none;
