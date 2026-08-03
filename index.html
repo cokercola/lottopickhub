@@ -23,24 +23,26 @@
   <div class="section">
     <p class="section-label">Choose a lottery</p>
     <div class="game-cards">
-      <a href="/powerball/" class="game-card">
+      <a href="/powerball/" class="game-card live">
+        <span class="status">Live</span>
+        <span class="card-arrow">→</span>
         <h3>Powerball</h3>
-        <p>5 of 69 + 1 of 26 · Draws Mon, Wed, Sat</p>
+        <p class="jackpot-line">Next jackpot: <strong id="home-jackpot">—</strong></p>
       </a>
       <div class="game-card coming-soon">
         <span class="status">Coming soon</span>
         <h3>Mega Millions</h3>
-        <p>5 of 70 + 1 of 25 · Draws Tue, Fri</p>
+        <p>Results and quick pick coming soon</p>
       </div>
       <div class="game-card coming-soon">
         <span class="status">Coming soon</span>
         <h3>Cash4Life</h3>
-        <p>5 of 60 + 1 of 4 · Daily draws</p>
+        <p>Results and quick pick coming soon</p>
       </div>
       <div class="game-card coming-soon">
         <span class="status">Coming soon</span>
         <h3>Lucky for Life</h3>
-        <p>5 of 48 + 1 of 18 · Daily draws</p>
+        <p>Results and quick pick coming soon</p>
       </div>
     </div>
   </div>
@@ -64,5 +66,13 @@
 </div>
 
 <script src="/assets/header.js"></script>
+<script src="/assets/site.js"></script>
+<script>
+fetchPowerballData()
+  .then(data => {
+    document.getElementById('home-jackpot').textContent = data.current_jackpot_estimate;
+  })
+  .catch(err => console.error(err));
+</script>
 </body>
 </html>
