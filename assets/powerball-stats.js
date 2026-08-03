@@ -6,9 +6,10 @@
  * computation here runs in a few milliseconds, so nothing is
  * precomputed server-side.
  *
- * This file is independent of site.js - it only needs a container id
- * to render into, plus the draws array. Call initPowerballStats()
- * once with the section ids you want populated.
+ * Hot & cold, the heatmap, and pair/triple analysis share ONE window
+ * selector (Last 10 / 25 / 100 / All time) so switching it updates
+ * all three sections together, rather than each having its own
+ * separate control.
  */
 
 async function fetchPowerballHistory() {
@@ -17,14 +18,33 @@ async function fetchPowerballHistory() {
   return res.json();
 }
 
-function statBallHTML(num, extraClass) {
-  return `<span class="stat-ball${extraClass ? ' ' + extraClass : ''}">${num}</span>`;
+function statBallHTML(num) {
+  return `<span class="stat-ball">${num}</span>`;
+}
+
+function windowedDraws(draws, windowSize) {
+  return windowSize === 'all' ? draws : draws.slice(-windowSize);
+}
+
+const WINDOW_OPTIONS = [
+  { label: 'Last 10', value: 10 },
+  { label: 'Last 25', value: 25 },
+  { label: 'Last 100', value: 100 },
+  { label: 'All time', value: 'all' },
+];
+
+function windowTabsHTML(current, groupId) {
+  return `
+    <div class="stat-tabs" data-tab-group="${groupId}">
+      ${WINDOW_OPTIONS.map(w => `<button class="stat-tab${w.value === current ? ' active' : ''}" data-window="${w.value}">${w.label}</button>`).join('')}
+    </div>
+  `;
 }
 
 /* ---------- Hot & cold ---------- */
 
 function computeHotCold(draws, windowSize) {
-  const relevant = windowSize === 'all' ? draws : draws.slice(-windowSize);
+  const relevant = windowedDraws(draws, windowSize);
   const counts = {};
   for (let n = 1; n <= 69; n++) counts[n] = 0;
   relevant.forEach(d => d.white_balls.forEach(n => { counts[n] += 1; }));
@@ -34,47 +54,25 @@ function computeHotCold(draws, windowSize) {
   return { hot, cold, drawCount: relevant.length };
 }
 
-function initHotCold(containerId, draws) {
+function renderHotCold(containerId, draws, windowSize) {
   const el = document.getElementById(containerId);
   if (!el) return;
-
-  const windows = [
-    { label: 'Last 10', value: 10 },
-    { label: 'Last 25', value: 25 },
-    { label: 'Last 100', value: 100 },
-    { label: 'All time', value: 'all' },
-  ];
-  let current = 100;
-
-  function render() {
-    const { hot, cold, drawCount } = computeHotCold(draws, current);
-    el.innerHTML = `
-      <p class="section-label">Hot &amp; cold numbers</p>
-      <div class="stat-tabs" id="hotcold-tabs">
-        ${windows.map(w => `<button class="stat-tab${w.value === current ? ' active' : ''}" data-window="${w.value}">${w.label}</button>`).join('')}
+  const { hot, cold, drawCount } = computeHotCold(draws, windowSize);
+  el.innerHTML = `
+    <p class="section-label">Hot &amp; cold numbers</p>
+    ${windowTabsHTML(windowSize, 'shared')}
+    <p class="section-sub">Based on the last ${drawCount} draw${drawCount === 1 ? '' : 's'}</p>
+    <div class="stats-grid">
+      <div>
+        <p class="stat-subhead hot">Hot</p>
+        <div class="chip-row">${hot.map(h => `<span class="count-chip"><span class="num hot-num">${h.number}</span><span class="count">${h.count}x</span></span>`).join('')}</div>
       </div>
-      <p class="section-sub">Based on the last ${drawCount} draw${drawCount === 1 ? '' : 's'}</p>
-      <div class="stats-grid">
-        <div>
-          <p class="stat-subhead hot">Hot</p>
-          <div class="chip-row">${hot.map(h => `<span class="count-chip"><span class="num hot-num">${h.number}</span><span class="count">${h.count}x</span></span>`).join('')}</div>
-        </div>
-        <div>
-          <p class="stat-subhead cold">Cold</p>
-          <div class="chip-row">${cold.map(h => `<span class="count-chip"><span class="num cold-num">${h.number}</span><span class="count">${h.count}x</span></span>`).join('')}</div>
-        </div>
+      <div>
+        <p class="stat-subhead cold">Cold</p>
+        <div class="chip-row">${cold.map(h => `<span class="count-chip"><span class="num cold-num">${h.number}</span><span class="count">${h.count}x</span></span>`).join('')}</div>
       </div>
-    `;
-    el.querySelectorAll('.stat-tab').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const v = btn.dataset.window;
-        current = v === 'all' ? 'all' : Number(v);
-        render();
-      });
-    });
-  }
-
-  render();
+    </div>
+  `;
 }
 
 /* ---------- Frequency heatmap ---------- */
@@ -95,11 +93,12 @@ function heatClass(count, max) {
   return 'heat-1';
 }
 
-function initHeatmap(containerId, draws, onCellClick) {
+function renderHeatmap(containerId, draws, windowSize, onCellClick) {
   const el = document.getElementById(containerId);
   if (!el) return;
 
-  const counts = computeFrequency(draws);
+  const relevant = windowedDraws(draws, windowSize);
+  const counts = computeFrequency(relevant);
   const max = Math.max(...Object.values(counts));
 
   const cells = [];
@@ -108,7 +107,9 @@ function initHeatmap(containerId, draws, onCellClick) {
   }
 
   el.innerHTML = `
-    <p class="section-label">Frequency heatmap <span class="muted-suffix">(1-69, since ${draws[0] ? draws[0].draw_date : ''})</span></p>
+    <p class="section-label">Frequency heatmap <span class="muted-suffix">(1-69)</span></p>
+    ${windowTabsHTML(windowSize, 'shared')}
+    <p class="section-sub">Based on the last ${relevant.length} draw${relevant.length === 1 ? '' : 's'}</p>
     <div class="heat-legend">
       <span>Cold</span>
       <span class="heat-legend-swatch heat-1"></span>
@@ -161,27 +162,41 @@ function computePairsAndTriples(draws) {
   return { topPairs, topTriples };
 }
 
-function initPairs(containerId, draws) {
+function renderPairs(containerId, draws, windowSize) {
   const el = document.getElementById(containerId);
   if (!el) return;
 
-  const { topPairs, topTriples } = computePairsAndTriples(draws);
+  const relevant = windowedDraws(draws, windowSize);
+  const { topPairs, topTriples } = computePairsAndTriples(relevant);
 
   function row(item) {
     return `
       <div class="pair-row">
         <span class="pair-numbers">${item.numbers.map(n => statBallHTML(n)).join('<span class="pair-plus">+</span>')}</span>
-        <span class="pair-count">${item.count} times</span>
+        <span class="pair-count">${item.count} time${item.count === 1 ? '' : 's'}</span>
       </div>
     `;
   }
 
+  const meaningfulPairs = topPairs.filter(p => p.count > 1);
+  const meaningfulTriples = topTriples.filter(p => p.count > 1);
+
+  const pairsHTML = meaningfulPairs.length
+    ? meaningfulPairs.map(row).join('')
+    : '<p class="fine-print">Not enough draws in this window for repeat pairs.</p>';
+
+  const triplesHTML = meaningfulTriples.length
+    ? meaningfulTriples.map(row).join('')
+    : '<p class="fine-print">Not enough draws in this window for repeat triples.</p>';
+
   el.innerHTML = `
-    <p class="section-label">Pair &amp; triple analysis <span class="muted-suffix">(since ${draws[0] ? draws[0].draw_date : ''})</span></p>
-    <p class="section-sub">Top pairs</p>
-    <div class="pair-list">${topPairs.map(row).join('')}</div>
+    <p class="section-label">Pair &amp; triple analysis</p>
+    ${windowTabsHTML(windowSize, 'shared')}
+    <p class="section-sub">Based on the last ${relevant.length} draw${relevant.length === 1 ? '' : 's'}</p>
+    <p class="section-sub" style="margin-top:14px;">Top pairs</p>
+    <div class="pair-list">${pairsHTML}</div>
     <p class="section-sub" style="margin-top:16px;">Top triples</p>
-    <div class="pair-list">${topTriples.map(row).join('')}</div>
+    <div class="pair-list">${triplesHTML}</div>
   `;
 }
 
@@ -190,6 +205,9 @@ function initPairs(containerId, draws) {
 function initExplorer(containerId, draws) {
   const el = document.getElementById(containerId);
   if (!el) return;
+
+  const DEFAULT_ROWS = 10;
+  const MAX_FILTERED_ROWS = 50;
 
   const years = Array.from(new Set(draws.map(d => d.draw_date.slice(0, 4)))).sort().reverse();
   const descending = [...draws].reverse();
@@ -220,6 +238,7 @@ function initExplorer(containerId, draws) {
   function renderRows() {
     const query = searchInput.value.trim().toLowerCase();
     const year = yearSelect.value;
+    const filtering = Boolean(query) || Boolean(year);
 
     let filtered = descending;
     if (year) {
@@ -236,7 +255,9 @@ function initExplorer(containerId, draws) {
       });
     }
 
-    const shown = filtered.slice(0, 50);
+    const limit = filtering ? MAX_FILTERED_ROWS : DEFAULT_ROWS;
+    const shown = filtered.slice(0, limit);
+
     rowsEl.innerHTML = shown.map(d => `
       <tr>
         <td>${d.draw_date}</td>
@@ -244,9 +265,13 @@ function initExplorer(containerId, draws) {
       </tr>
     `).join('') || '<tr><td colspan="2" class="fine-print">No draws match that search.</td></tr>';
 
-    countEl.textContent = filtered.length > 50
-      ? `Showing 50 of ${filtered.length} matching draws - narrow your search to see more.`
-      : `${filtered.length} matching draw${filtered.length === 1 ? '' : 's'}.`;
+    if (!filtering) {
+      countEl.textContent = `Showing the last ${shown.length} draws - search above for anything further back.`;
+    } else if (filtered.length > limit) {
+      countEl.textContent = `Showing ${limit} of ${filtered.length} matching draws - narrow your search to see more.`;
+    } else {
+      countEl.textContent = `${filtered.length} matching draw${filtered.length === 1 ? '' : 's'}.`;
+    }
   }
 
   searchInput.addEventListener('input', renderRows);
@@ -271,7 +296,6 @@ function computeNumberStats(draws, number) {
   for (let i = 1; i < indices.length; i++) gaps.push(indices[i] - indices[i - 1]);
   const avgGap = gaps.length ? gaps.reduce((a, b) => a + b, 0) / gaps.length : 0;
   const longestGap = gaps.length ? Math.max(...gaps) : 0;
-  const gapSinceLast = draws.length - 1 - indices[indices.length - 1];
 
   const partnerCounts = {};
   const pbCounts = {};
@@ -289,7 +313,6 @@ function computeNumberStats(draws, number) {
     lastDrawn,
     avgGap,
     longestGap,
-    gapSinceLast,
     commonPartner: commonPartner ? commonPartner[0] : null,
     commonPB: commonPB ? commonPB[0] : null,
   };
@@ -339,7 +362,6 @@ function initLookup(containerId, draws) {
   btn.addEventListener('click', () => renderNumber(Number(input.value)));
   input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); renderNumber(Number(input.value)); } });
 
-  // Expose a jump-to-lookup function other sections (heatmap) can call.
   window.powerballJumpToNumber = function jumpToNumber(number) {
     input.value = number;
     renderNumber(number);
@@ -355,11 +377,28 @@ async function initPowerballStats(ids) {
   const history = await fetchPowerballHistory();
   const draws = history.draws;
 
-  if (ids.hotcold) initHotCold(ids.hotcold, draws);
+  let windowSize = 100;
+
+  function renderShared() {
+    if (ids.hotcold) renderHotCold(ids.hotcold, draws, windowSize);
+    if (ids.heatmap) renderHeatmap(ids.heatmap, draws, windowSize, num => {
+      if (window.powerballJumpToNumber) window.powerballJumpToNumber(num);
+    });
+    if (ids.pairs) renderPairs(ids.pairs, draws, windowSize);
+    bindSharedTabs();
+  }
+
+  function bindSharedTabs() {
+    document.querySelectorAll('[data-tab-group="shared"] .stat-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const v = btn.dataset.window;
+        windowSize = v === 'all' ? 'all' : Number(v);
+        renderShared();
+      });
+    });
+  }
+
+  renderShared();
   if (ids.lookup) initLookup(ids.lookup, draws);
-  if (ids.heatmap) initHeatmap(ids.heatmap, draws, num => {
-    if (window.powerballJumpToNumber) window.powerballJumpToNumber(num);
-  });
-  if (ids.pairs) initPairs(ids.pairs, draws);
   if (ids.explorer) initExplorer(ids.explorer, draws);
 }
