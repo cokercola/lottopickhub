@@ -76,12 +76,81 @@ a { color: inherit; }
 .tip-jar-btn {
   background: var(--gold);
   color: var(--navy);
+  border: none;
   border-radius: 20px;
   padding: 8px 20px;
   font-size: 14px;
   font-weight: 700;
-  text-decoration: none;
+  cursor: pointer;
+  font-family: inherit;
   white-space: nowrap;
+}
+
+.tip-wrap {
+  position: relative;
+}
+.tip-popover {
+  display: none;
+  position: absolute;
+  top: 130%;
+  right: 0;
+  background: var(--white);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  padding: 12px;
+  width: 200px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  z-index: 50;
+}
+.tip-popover.open { display: block; }
+.tip-popover-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+.tip-popover-text {
+  font-size: 11px;
+  color: var(--text-faint);
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+.tip-amounts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.tip-amount-btn {
+  display: block;
+  text-align: center;
+  background: var(--bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  padding: 8px 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  text-decoration: none;
+}
+.tip-amount-btn:hover {
+  border-color: var(--gold);
+}
+.tip-custom-btn {
+  display: block;
+  text-align: center;
+  background: none;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  padding: 8px 0;
+  font-size: 12px;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+.tip-custom-btn:hover {
+  border-color: var(--gold);
 }
 
 .gold-rule {
@@ -410,3 +479,22 @@ a { color: inherit; }
 }
 .breadcrumb a { color: var(--text-muted); text-decoration: none; }
 .breadcrumb .current { color: var(--navy); font-weight: 600; }
+
+/* News */
+.news-item {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--panel-border);
+}
+.news-item:last-child { border-bottom: none; }
+.news-item a {
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--navy);
+}
+.news-item a:hover { color: var(--gold); }
+.news-meta {
+  font-size: 11px;
+  color: var(--text-faint);
+  margin-top: 2px;
+}
