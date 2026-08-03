@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-03T14:24:31.592574Z",
+  "updated_at": "2026-08-03T20:47:59.085000Z",
   "game": {
     "name": "Powerball",
     "white_ball_count": 5,
@@ -23,6 +23,7 @@
     "amount": "$412,000,000",
     "note": "Manually maintained - see script docstring."
   },
+  "current_jackpot_estimate": "$150,000,000",
   "stats_since_jackpot": {
     "draws_since_jackpot": 21,
     "most_drawn": [
