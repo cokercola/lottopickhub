@@ -7,6 +7,11 @@
   --text-muted: #5C6B8A;
   --text-faint: #8C9AB8;
   --white: #ffffff;
+  --heat-1: #F4F6FB;
+  --heat-2: #FFF3D0;
+  --heat-3: #FFE49A;
+  --heat-4: #FFCB4D;
+  --heat-5: #F2B705;
 }
 
 * { box-sizing: border-box; }
@@ -256,6 +261,7 @@ a { color: inherit; }
   align-items: center;
   gap: 14px;
   margin-top: 12px;
+  flex-wrap: wrap;
 }
 .btn-gold {
   background: var(--gold);
@@ -276,21 +282,35 @@ a { color: inherit; }
 }
 
 /* Ticket checker */
-.checker-row {
+.checker-ball-row {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  margin-bottom: 12px;
 }
-.checker-input {
+.checker-ball {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 2px solid var(--navy);
   background: var(--white);
-  border: 1px solid var(--panel-border);
-  border-radius: 8px;
-  padding: 11px 16px;
   color: var(--navy);
-  font-size: 14px;
-  flex: 1;
-  min-width: 200px;
+  text-align: center;
+  font-weight: 800;
+  font-size: 15px;
   font-family: inherit;
+  padding: 0;
+}
+.checker-ball:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+.checker-ball-special {
+  border-color: var(--red);
+  color: var(--red);
+}
+.checker-ball-special:focus {
+  border-color: var(--gold);
 }
 .checker-result {
   margin-top: 12px;
@@ -344,6 +364,15 @@ a { color: inherit; }
   justify-content: center;
   font-size: 12px;
   font-weight: 800;
+}
+.count-chip .num.hot-num {
+  background: var(--gold);
+  color: var(--navy);
+}
+.count-chip .num.cold-num {
+  background: var(--white);
+  border: 1px solid var(--panel-border);
+  color: var(--text-muted);
 }
 .count-chip .count {
   font-size: 12px;
@@ -498,12 +527,202 @@ a { color: inherit; }
   color: var(--text-faint);
   margin-top: 2px;
 }
-.checker-ball-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
-.checker-ball {
-  width: 46px; height: 46px; border-radius: 50%;
-  border: 2px solid var(--navy); background: var(--white); color: var(--navy);
-  text-align: center; font-weight: 800; font-size: 15px; font-family: inherit; padding: 0;
+
+/* --- Hot & cold tabs --- */
+.stat-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
 }
-.checker-ball:focus { outline: none; border-color: var(--gold); }
-.checker-ball-special { border-color: var(--red); color: var(--red); }
-.checker-ball-special:focus { border-color: var(--gold); }
+.stat-tab {
+  background: var(--white);
+  border: 1px solid var(--panel-border);
+  border-radius: 14px;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: inherit;
+}
+.stat-tab:hover { border-color: var(--gold); }
+.stat-tab.active {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--white);
+}
+.stat-subhead {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+}
+.stat-subhead.hot { color: var(--gold); }
+.stat-subhead.cold { color: var(--text-muted); }
+
+/* --- Frequency heatmap --- */
+.heat-legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-faint);
+  margin-bottom: 10px;
+}
+.heat-legend-swatch {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  display: inline-block;
+}
+.heat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(38px, 1fr));
+  gap: 5px;
+}
+.heat-cell {
+  aspect-ratio: 1;
+  border: none;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--navy);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.heat-cell:hover {
+  outline: 2px solid var(--navy);
+  outline-offset: 1px;
+}
+.heat-1 { background: var(--heat-1); border: 1px solid var(--panel-border); color: var(--text-faint); }
+.heat-2 { background: var(--heat-2); }
+.heat-3 { background: var(--heat-3); }
+.heat-4 { background: var(--heat-4); }
+.heat-5 { background: var(--heat-5); }
+
+/* --- Pair & triple analysis --- */
+.pair-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.pair-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--white);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  gap: 12px;
+}
+.pair-numbers {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.pair-plus {
+  color: var(--text-faint);
+  font-size: 12px;
+  margin: 0 2px;
+}
+.pair-count {
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.stat-ball {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--panel-border);
+  color: var(--navy);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* --- Historical explorer --- */
+.explorer-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.explorer-input,
+.explorer-select {
+  background: var(--white);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 13px;
+  color: var(--navy);
+  font-family: inherit;
+}
+.explorer-input { flex: 1; min-width: 200px; }
+.explorer-table-wrap {
+  overflow-x: auto;
+}
+.explorer-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.explorer-table th {
+  text-align: left;
+  color: var(--text-faint);
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--panel-border);
+}
+.explorer-table td {
+  padding: 8px;
+  border-bottom: 1px solid var(--panel-border);
+  color: var(--navy);
+}
+.explorer-pb {
+  color: var(--red);
+  font-weight: 700;
+}
+
+/* --- Number lookup --- */
+.lookup-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+@media (max-width: 560px) {
+  .lookup-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.lookup-stat {
+  background: var(--white);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.lookup-label {
+  font-size: 10px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.lookup-value {
+  font-size: 15px;
+  color: var(--navy);
+  font-weight: 800;
+}
