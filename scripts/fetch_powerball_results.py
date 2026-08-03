@@ -38,10 +38,15 @@ OUTPUT_PATH = "data/powerball.json"
 HISTORY_OUTPUT_PATH = "data/powerball-history.json"
 
 # MANUALLY UPDATE THIS when the jackpot changes (check powerball.com).
-# See the module docstring above for why this isn't automated yet.
+# NY Open Data does NOT include forward-looking jackpot estimates or
+# jackpot-win information - only confirmed historical draw results -
+# so there's no official feed for either of these. Rather than scrape
+# a third-party site for a live dollar estimate (fragile - breaks
+# whenever that site's layout changes), the homepage instead shows
+# "growing since [this date]" without a dollar figure, computed
+# directly from this one manually-maintained date.
 LAST_JACKPOT_DATE = "2026-06-14"
 LAST_JACKPOT_AMOUNT = "$412,000,000"  # also update manually alongside the date above
-CURRENT_JACKPOT_ESTIMATE = "$150,000,000"  # shown on the homepage card - update before each drawing
 
 WHITE_BALL_COUNT = 5
 WHITE_BALL_MAX = 69
@@ -190,7 +195,6 @@ def main():
             "amount": LAST_JACKPOT_AMOUNT,
             "note": "Manually maintained - see script docstring.",
         },
-        "current_jackpot_estimate": CURRENT_JACKPOT_ESTIMATE,
         "stats_since_jackpot": stats,
         # Keep a reasonable amount of recent history for the archive
         # search feature, without bloating the JSON file with 15 years
