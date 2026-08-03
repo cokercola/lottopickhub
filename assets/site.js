@@ -55,32 +55,57 @@ function initQuickPick(containerId, btnId, data) {
   });
 }
 
-function initTicketChecker(formId, inputId, resultId, data) {
-  const form = document.getElementById(formId);
-  const input = document.getElementById(inputId);
+function initTicketChecker(rowId, btnId, resultId, data) {
+  const row = document.getElementById(rowId);
+  const btn = document.getElementById(btnId);
   const result = document.getElementById(resultId);
-  if (!form || !input || !result) return;
+  if (!row || !btn || !result) return;
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const nums = input.value.match(/\d+/g);
-    if (!nums || nums.length < data.game.white_ball_count) {
-      result.innerHTML = 'Enter your ' + data.game.white_ball_count + ' numbers (and optionally the Powerball) separated by spaces or commas.';
+  const total = data.game.white_ball_count + 1;
+  row.innerHTML = '';
+  for (let i = 0; i < total; i++) {
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.inputMode = 'numeric';
+    input.maxLength = 2;
+    input.className = 'checker-ball' + (i === total - 1 ? ' checker-ball-special' : '');
+    row.appendChild(input);
+  }
+  const inputs = Array.from(row.querySelectorAll('.checker-ball'));
+
+  inputs.forEach((input, i) => {
+    input.addEventListener('input', () => {
+      input.value = input.value.replace(/\D/g, '').slice(0, 2);
+      if (input.value.length === 2 && i < inputs.length - 1) inputs[i + 1].focus();
+    });
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && input.value === '' && i > 0) inputs[i - 1].focus();
+      if (e.key === 'Enter') { e.preventDefault(); btn.click(); }
+    });
+    input.addEventListener('paste', (e) => {
+      const text = (e.clipboardData || window.clipboardData).getData('text');
+      const nums = text.match(/\d+/g);
+      if (!nums) return;
+      e.preventDefault();
+      nums.slice(0, inputs.length - i).forEach((n, j) => { inputs[i + j].value = n.slice(0, 2); });
+      inputs[Math.min(i + nums.length, inputs.length - 1)].focus();
+    });
+  });
+
+  btn.addEventListener('click', () => {
+    const values = inputs.map(inp => inp.value.trim());
+    if (values.some(v => v === '')) {
+      result.innerHTML = 'Enter all ' + data.game.white_ball_count + ' numbers plus the Powerball.';
       return;
     }
-    const userNums = nums.slice(0, data.game.white_ball_count).map(Number);
-    const userSpecial = nums.length > data.game.white_ball_count ? Number(nums[data.game.white_ball_count]) : null;
-
+    const userNums = values.slice(0, data.game.white_ball_count).map(Number);
+    const userSpecial = Number(values[values.length - 1]);
     const draw = data.latest_draw;
     const whiteMatches = userNums.filter(n => draw.white_balls.includes(n)).length;
-    const specialMatch = userSpecial !== null && userSpecial === draw.powerball;
+    const specialMatch = userSpecial === draw.powerball;
 
     let msg = `Against the latest draw (${draw.draw_date}): <strong>${whiteMatches} of ${data.game.white_ball_count}</strong> white ball number${whiteMatches === 1 ? '' : 's'} matched`;
-    if (userSpecial !== null) {
-      msg += specialMatch ? ', and the Powerball matched.' : ', and the Powerball did not match.';
-    } else {
-      msg += '. (No Powerball number entered.)';
-    }
+    msg += specialMatch ? ', and the Powerball matched.' : ', and the Powerball did not match.';
     result.innerHTML = msg;
   });
 }
