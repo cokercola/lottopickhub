@@ -9,10 +9,8 @@ const HEADER_HTML = `
     <span class="brand-name">Lotto<span class="accent">Pick</span>Hub</span>
   </a>
   <nav class="site-nav">
-    <a href="/archive/">Archive</a>
-    <a href="/learn/">Learn</a>
   </nav>
-  <a href="/tip.html" class="tip-jar-btn">Tip jar</a>
+  <div id="tip-jar-widget"></div>
 </header>
 <div class="gold-rule"></div>
 `;
@@ -21,6 +19,9 @@ function initHeader() {
   const mount = document.getElementById('site-header');
   if (!mount) return;
   mount.innerHTML = HEADER_HTML;
+  if (typeof renderTipJar === 'function') {
+    renderTipJar('tip-jar-widget');
+  }
 }
 
 document.addEventListener('DOMContentLoaded', initHeader);
