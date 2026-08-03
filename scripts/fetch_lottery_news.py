@@ -35,12 +35,13 @@ def fetch_articles():
     params = {
         "q": QUERY,
         "lang": "en",
-        "country": "us",
         "max": MAX_ITEMS,
         "apikey": GNEWS_API_KEY,
     }
     resp = requests.get(API_URL, params=params, timeout=30)
-    resp.raise_for_status()
+    if not resp.ok:
+        print(f"GNews API error {resp.status_code}: {resp.text}")
+        resp.raise_for_status()
     return resp.json().get("articles", [])
 
 
@@ -74,4 +75,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
