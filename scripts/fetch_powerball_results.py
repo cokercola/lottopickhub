@@ -16,6 +16,13 @@ won (powerball.com announces this). A proper fix later would be
 finding/scraping a jackpot-history source and wiring it in here
 instead of hand-maintaining the date.
 
+Also writes data/powerball-history.json: every draw since 2015-10-07
+(the date Powerball moved to the current 5/69 + 1/26 matrix). Draws
+before that date used a different number range, so they're excluded
+to keep frequency/hot-cold/pair stats statistically valid. This file
+powers the Hot & Cold dashboard, frequency heatmap, pair/triple
+analysis, historical draw explorer, and number lookup pages.
+
 Run on a schedule via .github/workflows/update-powerball.yml
 
 No API key required - this is a fully public dataset.
@@ -28,6 +35,7 @@ import requests
 
 API_URL = "https://data.ny.gov/resource/d6yy-54nr.json"
 OUTPUT_PATH = "data/powerball.json"
+HISTORY_OUTPUT_PATH = "data/powerball-history.json"
 
 # MANUALLY UPDATE THIS when the jackpot changes (check powerball.com).
 # See the module docstring above for why this isn't automated yet.
@@ -38,6 +46,11 @@ CURRENT_JACKPOT_ESTIMATE = "$150,000,000"  # shown on the homepage card - update
 WHITE_BALL_COUNT = 5
 WHITE_BALL_MAX = 69
 RED_BALL_MAX = 26
+
+# Current matrix (5/69 + 1/26) took effect this date. Draws before it
+# used a different number range (5/59 + 1/35) and can't be mixed into
+# frequency/hot-cold/pair stats without corrupting them.
+HISTORY_START_DATE = "2015-10-07"
 
 
 def fetch_all_draws():
@@ -111,6 +124,42 @@ def compute_stats(draws, since_date):
     }
 
 
+def write_history_file(draws):
+    """Writes every draw since the current matrix took effect
+    (2015-10-07) to data/powerball-history.json. This powers the
+    client-side Hot & Cold dashboard, frequency heatmap, pair/triple
+    analysis, historical draw explorer, and number lookup pages - all
+    computed in the browser from this one file rather than
+    precomputed here, since ~1,700 draws is small enough for the
+    browser to crunch instantly and it keeps this script simple as
+    more features get added on the frontend."""
+    history_draws = [d for d in draws if d["draw_date"] >= HISTORY_START_DATE]
+    history_draws.sort(key=lambda d: d["draw_date"])  # ascending, oldest first
+
+    history_output = {
+        "updated_at": datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z"),
+        "since": HISTORY_START_DATE,
+        "note": (
+            "Only includes draws since the 2015-10-07 matrix change "
+            "(5/69 + 1/26). Earlier draws used a different number "
+            "range and are excluded to keep frequency stats valid."
+        ),
+        "draws": [
+            {
+                "draw_date": d["draw_date"],
+                "white_balls": d["white_balls"],
+                "powerball": d["powerball"],
+            }
+            for d in history_draws
+        ],
+    }
+
+    with open(HISTORY_OUTPUT_PATH, "w") as f:
+        json.dump(history_output, f, indent=2)
+
+    print(f"Wrote {len(history_draws)} draws since {HISTORY_START_DATE} to {HISTORY_OUTPUT_PATH}")
+
+
 def main():
     raw_draws = fetch_all_draws()
     draws = [parse_draw(r) for r in raw_draws]
@@ -128,7 +177,7 @@ def main():
     stats = compute_stats(draws, LAST_JACKPOT_DATE)
 
     output = {
-        "updated_at": datetime.datetime.utcnow().isoformat() + "Z",
+        "updated_at": datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z"),
         "game": {
             "name": "Powerball",
             "white_ball_count": WHITE_BALL_COUNT,
@@ -152,6 +201,8 @@ def main():
     os.makedirs("data", exist_ok=True)
     with open(OUTPUT_PATH, "w") as f:
         json.dump(output, f, indent=2)
+
+    write_history_file(draws)
 
     print(f"Wrote {len(draws)} total draws ({len(output['recent_draws'])} kept in output) "
           f"to {OUTPUT_PATH}")
