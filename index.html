@@ -36,7 +36,7 @@
         <span class="status">Live</span>
         <span class="card-arrow">→</span>
         <h3>Powerball</h3>
-        <p class="jackpot-line">Next jackpot: <strong id="home-jackpot">—</strong></p>
+        <p class="jackpot-line">Jackpot growing since <strong id="home-jackpot">—</strong></p>
       </a>
       <div class="game-card coming-soon">
         <span class="status">Coming soon</span>
@@ -87,9 +87,19 @@
 <script>
 fetchPowerballData()
   .then(data => {
-    document.getElementById('home-jackpot').textContent = data.current_jackpot_estimate;
+    const el = document.getElementById('home-jackpot');
+    const jackpot = data.last_jackpot;
+    if (!jackpot || !jackpot.date) {
+      el.textContent = 'last win';
+      return;
+    }
+    const d = new Date(jackpot.date + 'T00:00:00');
+    el.textContent = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   })
-  .catch(err => console.error(err));
+  .catch(err => {
+    console.error(err);
+    document.getElementById('home-jackpot').textContent = 'last win';
+  });
 
 fetch('/data/lottery-news.json')
   .then(res => res.json())
