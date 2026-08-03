@@ -498,3 +498,12 @@ a { color: inherit; }
   color: var(--text-faint);
   margin-top: 2px;
 }
+.checker-ball-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.checker-ball {
+  width: 46px; height: 46px; border-radius: 50%;
+  border: 2px solid var(--navy); background: var(--white); color: var(--navy);
+  text-align: center; font-weight: 800; font-size: 15px; font-family: inherit; padding: 0;
+}
+.checker-ball:focus { outline: none; border-color: var(--gold); }
+.checker-ball-special { border-color: var(--red); color: var(--red); }
+.checker-ball-special:focus { border-color: var(--gold); }
