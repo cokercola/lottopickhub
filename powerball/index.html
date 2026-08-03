@@ -7,7 +7,6 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-FP60XF0554');
 </script>
 <meta charset="UTF-8">
@@ -20,10 +19,8 @@
 </head>
 <body>
 <div id="site-header"></div>
-
 <div class="page-shell">
 <div class="card">
-
   <div class="game-pills">
     <span class="game-pills-label">Multi-state</span>
     <a href="/powerball/" class="game-pill active">Powerball</a>
@@ -31,16 +28,12 @@
     <span class="game-pill" style="opacity:0.5;">Cash4Life</span>
     <span class="game-pill" style="opacity:0.5;">Lucky for Life</span>
   </div>
-
   <div class="breadcrumb"><a href="/">Home</a> / <span class="current">Powerball</span></div>
-
   <div class="section">
     <p class="section-sub" id="draw-date">Latest draw</p>
     <div class="ball-row" id="latest-draw-balls"></div>
   </div>
-
   <div class="section-divider"></div>
-
   <div class="section">
     <p class="section-label">Quick pick generator</p>
     <div class="ball-row" id="quick-pick-balls" style="margin-bottom:12px;"></div>
@@ -49,32 +42,36 @@
       <span class="fine-print">Fully random - not optimized picks</span>
     </div>
   </div>
-
   <div class="section-divider"></div>
-
   <div class="section">
-  <p class="section-label">Did I win? Ticket checker</p>
-  <div class="checker-ball-row" id="checker-ball-row"></div>
-  <div class="quick-pick-actions">
-    <button class="btn-gold" id="checker-btn">Check</button>
-    <span class="fine-print">Checked against the latest draw only</span>
+    <p class="section-label">Did I win? Ticket checker</p>
+    <div class="checker-ball-row" id="checker-ball-row"></div>
+    <div class="quick-pick-actions">
+      <button class="btn-gold" id="checker-btn">Check</button>
+      <span class="fine-print">Checked against the latest draw only</span>
+    </div>
+    <div class="checker-result" id="checker-result"></div>
   </div>
-  <div class="checker-result" id="checker-result"></div>
-</div>
-
   <div class="section-divider"></div>
-
   <div class="section" id="stats-section"></div>
-
+  <div class="section-divider"></div>
+  <div class="section" id="hotcold-section"></div>
+  <div class="section-divider"></div>
+  <div class="section" id="heatmap-section"></div>
+  <div class="section-divider"></div>
+  <div class="section" id="pairs-section"></div>
+  <div class="section-divider"></div>
+  <div class="section" id="explorer-section"></div>
+  <div class="section-divider"></div>
+  <div class="section" id="lookup-section"></div>
   <div class="footer-strip">
     <span>Historical curiosity and entertainment only — not a prediction tool.</span>
     <span>Data source: NY State Open Data (official)</span>
   </div>
-
 </div>
 </div>
-
 <script src="/assets/site.js"></script>
+<script src="/assets/powerball-stats.js"></script>
 <script src="/assets/donate.js"></script>
 <script src="/assets/header.js"></script>
 <script>
@@ -82,12 +79,23 @@ async function init() {
   const data = await fetchPowerballData();
   renderLatestDraw('latest-draw-balls', 'draw-date', data);
   initQuickPick('quick-pick-balls', 'quick-pick-btn', data);
-  initTicketChecker('checker-form', 'checker-input', 'checker-result', data);
+  initTicketChecker('checker-ball-row', 'checker-btn', 'checker-result', data);
   renderStats('stats-section', data);
 }
 init().catch(err => {
   console.error(err);
   document.getElementById('latest-draw-balls').textContent = 'Could not load results.';
+});
+
+initPowerballStats({
+  hotcold: 'hotcold-section',
+  heatmap: 'heatmap-section',
+  pairs: 'pairs-section',
+  explorer: 'explorer-section',
+  lookup: 'lookup-section',
+}).catch(err => {
+  console.error(err);
+  document.getElementById('hotcold-section').textContent = 'Could not load historical stats.';
 });
 </script>
 </body>
