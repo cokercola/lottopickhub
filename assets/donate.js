@@ -4,10 +4,10 @@
  * Payment Links), same pattern as before - one link per amount tier.
  */
 const STRIPE_LINKS = {
-  5: "REPLACE_WITH_5_DOLLAR_LINK",
-  10: "REPLACE_WITH_10_DOLLAR_LINK",
-  25: "REPLACE_WITH_25_DOLLAR_LINK",
-  custom: "REPLACE_WITH_CUSTOM_AMOUNT_LINK",
+  5: "https://buy.stripe.com/fZu6oJ5PE6MO9dS3bcebu04",
+  10: "https://buy.stripe.com/3cI00l1zoefgdu8h22ebu05",
+  25: "https://buy.stripe.com/00w3cxb9Y5IK3Ty278ebu06",
+  custom: "https://buy.stripe.com/fZu4gB91Q6MO0HmbHIebu07",
 };
 
 function renderTipJar(containerId) {
