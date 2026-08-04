@@ -1,6 +1,6 @@
-async function fetchPowerballData() {
-  const res = await fetch('/data/powerball.json');
-  if (!res.ok) throw new Error('Failed to load /data/powerball.json');
+async function fetchPowerballData(path) {
+  const res = await fetch(path || '/data/powerball.json');
+  if (!res.ok) throw new Error('Failed to load ' + (path || '/data/powerball.json'));
   return res.json();
 }
 
