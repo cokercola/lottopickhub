@@ -56,11 +56,12 @@
         <h3>Powerball</h3>
         <p class="jackpot-line">Jackpot growing since <strong id="home-jackpot">—</strong></p>
       </a>
-      <div class="game-card coming-soon">
-        <span class="status">Coming soon</span>
+      <a href="/megamillions/" class="game-card live">
+        <span class="status">Live</span>
+        <span class="card-arrow">→</span>
         <h3>Mega Millions</h3>
-        <p>Results and quick pick coming soon</p>
-      </div>
+        <p class="jackpot-line">Jackpot growing since <strong id="home-jackpot-mm">—</strong></p>
+      </a>
       <div class="game-card coming-soon">
         <span class="status">Coming soon</span>
         <h3>Cash4Life</h3>
@@ -117,6 +118,22 @@ fetchPowerballData()
   .catch(err => {
     console.error(err);
     document.getElementById('home-jackpot').textContent = 'last win';
+  });
+
+fetchPowerballData('/data/megamillions.json')
+  .then(data => {
+    const el = document.getElementById('home-jackpot-mm');
+    const jackpot = data.last_jackpot;
+    if (!jackpot || !jackpot.date) {
+      el.textContent = 'last win';
+      return;
+    }
+    const d = new Date(jackpot.date + 'T00:00:00');
+    el.textContent = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  })
+  .catch(err => {
+    console.error(err);
+    document.getElementById('home-jackpot-mm').textContent = 'last win';
   });
 
 fetch('/data/lottery-news.json')
