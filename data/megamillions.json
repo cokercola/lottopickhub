@@ -1,0 +1,1490 @@
+{
+  "updated_at": "2026-08-04T01:40:20.771792Z",
+  "game": {
+    "name": "Mega Millions",
+    "white_ball_count": 5,
+    "white_ball_max": 70,
+    "red_ball_max": 24
+  },
+  "latest_draw": {
+    "draw_date": "2026-06-19",
+    "white_balls": [
+      13,
+      16,
+      21,
+      26,
+      50
+    ],
+    "powerball": 12,
+    "multiplier": null
+  },
+  "last_jackpot": {
+    "date": "2026-07-28",
+    "amount": "$803,000,000",
+    "note": "Manually maintained - see script docstring."
+  },
+  "stats_since_jackpot": {
+    "draws_since_jackpot": 0,
+    "most_drawn": [],
+    "not_drawn": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70
+    ]
+  },
+  "recent_draws": [
+    {
+      "draw_date": "2026-06-19",
+      "white_balls": [
+        13,
+        16,
+        21,
+        26,
+        50
+      ],
+      "powerball": 12
+    },
+    {
+      "draw_date": "2026-06-16",
+      "white_balls": [
+        12,
+        20,
+        53,
+        67,
+        70
+      ],
+      "powerball": 12
+    },
+    {
+      "draw_date": "2026-06-12",
+      "white_balls": [
+        9,
+        17,
+        24,
+        39,
+        51
+      ],
+      "powerball": 3
+    },
+    {
+      "draw_date": "2026-06-09",
+      "white_balls": [
+        9,
+        30,
+        36,
+        38,
+        40
+      ],
+      "powerball": 3
+    },
+    {
+      "draw_date": "2026-06-05",
+      "white_balls": [
+        13,
+        30,
+        50,
+        52,
+        66
+      ],
+      "powerball": 2
+    },
+    {
+      "draw_date": "2026-06-02",
+      "white_balls": [
+        15,
+        26,
+        43,
+        48,
+        60
+      ],
+      "powerball": 12
+    },
+    {
+      "draw_date": "2026-05-29",
+      "white_balls": [
+        19,
+        24,
+        47,
+        59,
+        65
+      ],
+      "powerball": 7
+    },
+    {
+      "draw_date": "2026-05-26",
+      "white_balls": [
+        1,
+        5,
+        49,
+        51,
+        59
+      ],
+      "powerball": 7
+    },
+    {
+      "draw_date": "2026-05-22",
+      "white_balls": [
+        3,
+        22,
+        34,
+        54,
+        61
+      ],
+      "powerball": 8
+    },
+    {
+      "draw_date": "2026-05-19",
+      "white_balls": [
+        10,
+        26,
+        34,
+        56,
+        64
+      ],
+      "powerball": 6
+    },
+    {
+      "draw_date": "2026-05-15",
+      "white_balls": [
+        17,
+        23,
+        25,
+        52,
+        61
+      ],
+      "powerball": 3
+    },
+    {
+      "draw_date": "2026-05-12",
+      "white_balls": [
+        17,
+        32,
+        35,
+        40,
+        47
+      ],
+      "powerball": 17
+    },
+    {
+      "draw_date": "2026-05-08",
+      "white_balls": [
+        37,
+        47,
+        49,
+        51,
+        58
+      ],
+      "powerball": 16
+    },
+    {
+      "draw_date": "2026-05-05",
+      "white_balls": [
+        12,
+        22,
+        50,
+        51,
+        55
+      ],
+      "powerball": 10
+    },
+    {
+      "draw_date": "2026-05-01",
+      "white_balls": [
+        16,
+        21,
+        27,
+        41,
+        61
+      ],
+      "powerball": 24
+    },
+    {
+      "draw_date": "2026-04-28",
+      "white_balls": [
+        14,
+        36,
+        41,
+        47,
+        66
+      ],
+      "powerball": 15
+    },
+    {
+      "draw_date": "2026-04-24",
+      "white_balls": [
+        7,
+        16,
+        32,
+        35,
+        40
+      ],
+      "powerball": 12
+    },
+    {
+      "draw_date": "2026-04-21",
+      "white_balls": [
+        1,
+        36,
+        43,
+        56,
+        58
+      ],
+      "powerball": 7
+    },
+    {
+      "draw_date": "2026-04-17",
+      "white_balls": [
+        38,
+        43,
+        44,
+        49,
+        62
+      ],
+      "powerball": 8
+    },
+    {
+      "draw_date": "2026-04-14",
+      "white_balls": [
+        17,
+        21,
+        24,
+        57,
+        69
+      ],
+      "powerball": 12
+    },
+    {
+      "draw_date": "2026-04-10",
+      "white_balls": [
+        3,
+        18,
+        36,
+        42,
+        49
+      ],
+      "powerball": 6
+    },
+    {
+      "draw_date": "2026-04-07",
+      "white_balls": [
+        5,
+        15,
+        22,
+        33,
+        37
+      ],
+      "powerball": 2
+    },
+    {
+      "draw_date": "2026-04-03",
+      "white_balls": [
+        31,
+        45,
+        62,
+        63,
+        68
+      ],
+      "powerball": 15
+    },
+    {
+      "draw_date": "2026-03-31",
+      "white_balls": [
+        18,
+        35,
+        45,
+        60,
+        65
+      ],
+      "powerball": 17
+    },
+    {
+      "draw_date": "2026-03-27",
+      "white_balls": [
+        13,
+        27,
+        28,
+        41,
+        62
+      ],
+      "powerball": 16
+    },
+    {
+      "draw_date": "2026-03-24",
+      "white_balls": [
+        4,
+        13,
+        52,
+        53,
+        69
+      ],
+      "powerball": 10
+    },
+    {
+      "draw_date": "2026-03-20",
+      "white_balls": [
+        11,
+        20,
+        51,
+        55,
+        63
+      ],
+      "powerball": 4
+    },
+    {
+      "draw_date": "2026-03-17",
+      "white_balls": [
+        4,
+        11,
+        18,
+        38,
+        50
+      ],
+      "powerball": 24
+    },
+    {
+      "draw_date": "2026-03-13",
+      "white_balls": [
+        6,
+        19,
+        36,
+        40,
+        55
+      ],
+      "powerball": 9
+    },
+    {
+      "draw_date": "2026-03-10",
+      "white_balls": [
+        16,
+        21,
+        30,
+        35,
+        65
+      ],
+      "powerball": 7
+    },
+    {
+      "draw_date": "2026-03-06",
+      "white_balls": [
+        8,
+        19,
+        26,
+        38,
+        42
+      ],
+      "powerball": 24
+    },
+    {
+      "draw_date": "2026-03-03",
+      "white_balls": [
+        7,
+        21,
+        53,
+        54,
+        62
+      ],
+      "powerball": 16
+    },
+    {
+      "draw_date": "2026-02-27",
+      "white_balls": [
+        11,
+        18,
+        39,
+        43,
+        67
+      ],
+      "powerball": 23
+    },
+    {
+      "draw_date": "2026-02-24",
+      "white_balls": [
+        12,
+        39,
+        43,
+        49,
+        55
+      ],
+      "powerball": 23
+    },
+    {
+      "draw_date": "2026-02-20",
+      "white_balls": [
+        15,
+        40,
+        48,
+        58,
+        63
+      ],
+      "powerball": 2
+    },
+    {
+      "draw_date": "2026-02-17",
+      "white_balls": [
+        3,
+        37,
+        44,
+        52,
+        63
+      ],
+      "powerball": 14
+    },
+    {
+      "draw_date": "2026-02-13",
+      "white_balls": [
+        34,
+        40,
+        49,
+        59,
+        68
+      ],
+      "powerball": 1
+    },
+    {
+      "draw_date": "2026-02-10",
+      "white_balls": [
+        5,
+        25,
+        30,
+        36,
+        68
+      ],
+      "powerball": 6
+    },
+    {
+      "draw_date": "2026-02-06",
+      "white_balls": [
+        13,
+        21,
+        25,
+        52,
+        62
+      ],
+      "powerball": 19
+    },
+    {
+      "draw_date": "2026-02-03",
+      "white_balls": [
+        5,
+        11,
+        22,
+        25,
+        69
+      ],
+      "powerball": 21
+    },
+    {
+      "draw_date": "2026-01-30",
+      "white_balls": [
+        11,
+        34,
+        36,
+        43,
+        63
+      ],
+      "powerball": 13
+    },
+    {
+      "draw_date": "2026-01-27",
+      "white_balls": [
+        4,
+        20,
+        38,
+        56,
+        66
+      ],
+      "powerball": 5
+    },
+    {
+      "draw_date": "2026-01-23",
+      "white_balls": [
+        30,
+        42,
+        49,
+        53,
+        66
+      ],
+      "powerball": 4
+    },
+    {
+      "draw_date": "2026-01-20",
+      "white_balls": [
+        8,
+        47,
+        50,
+        56,
+        70
+      ],
+      "powerball": 12
+    },
+    {
+      "draw_date": "2026-01-16",
+      "white_balls": [
+        2,
+        22,
+        33,
+        42,
+        67
+      ],
+      "powerball": 1
+    },
+    {
+      "draw_date": "2026-01-13",
+      "white_balls": [
+        16,
+        40,
+        56,
+        64,
+        66
+      ],
+      "powerball": 4
+    },
+    {
+      "draw_date": "2026-01-09",
+      "white_balls": [
+        12,
+        30,
+        36,
+        42,
+        47
+      ],
+      "powerball": 16
+    },
+    {
+      "draw_date": "2026-01-06",
+      "white_balls": [
+        9,
+        39,
+        47,
+        58,
+        68
+      ],
+      "powerball": 24
+    },
+    {
+      "draw_date": "2026-01-02",
+      "white_balls": [
+        6,
+        13,
+        34,
+        43,
+        52
+      ],
+      "powerball": 4
+    },
+    {
+      "draw_date": "2025-12-30",
+      "white_balls": [
+        18,
+        43,
+        49,
+        63,
+        69
+      ],
+      "powerball": 6
+    },
+    {
+      "draw_date": "2025-12-26",
+      "white_balls": [
+        9,
+        19,
+        31,
+        63,
+        64
+      ],
+      "powerball": 7
+    },
+    {
+      "draw_date": "2025-12-23",
+      "white_balls": [
+        15,
+        37,
+        38,
+        41,
+        64
+      ],
+      "powerball": 21
+    },
+    {
+      "draw_date": "2025-12-19",
+      "white_balls": [
+        1,
+        11,
+        27,
+        39,
+        59
+      ],
+      "powerball": 18
+    },
+    {
+      "draw_date": "2025-12-16",
+      "white_balls": [
+        20,
+        24,
+        46,
+        59,
+        65
+      ],
+      "powerball": 7
+    },
+    {
+      "draw_date": "2025-12-12",
+      "white_balls": [
+        10,
+        50,
+        55,
+        58,
+        59
+      ],
+      "powerball": 5
+    },
+    {
+      "draw_date": "2025-12-09",
+      "white_balls": [
+        19,
+        32,
+        41,
+        49,
+        66
+      ],
+      "powerball": 6
+    },
+    {
+      "draw_date": "2025-12-05",
+      "white_balls": [
+        34,
+        38,
+        42,
+        44,
+        69
+      ],
+      "powerball": 8
+    },
+    {
+      "draw_date": "2025-12-02",
+      "white_balls": [
+        17,
+        25,
+        26,
+        53,
+        60
+      ],
+      "powerball": 16
+    },
+    {
+      "draw_date": "2025-11-28",
+      "white_balls": [
+        6,
+        7,
+        13,
+        39,
+        48
+      ],
+      "powerball": 4
+    },
+    {
+      "draw_date": "2025-11-25",
+      "white_balls": [
+        11,
+        15,
+        31,
+        32,
+        59
+      ],
+      "powerball": 18
+    },
+    {
+      "draw_date": "2025-11-21",
+      "white_balls": [
+        3,
+        4,
+        19,
+        31,
+        63
+      ],
+      "powerball": 9
+    },
+    {
+      "draw_date": "2025-11-18",
+      "white_balls": [
+        5,
+        10,
+        23,
+        27,
+        30
+      ],
+      "powerball": 10
+    },
+    {
+      "draw_date": "2025-11-14",
+      "white_balls": [
+        1,
+        8,
+        11,
+        12,
+        57
+      ],
+      "powerball": 7
+    },
+    {
+      "draw_date": "2025-11-11",
+      "white_balls": [
+        10,
+        13,
+        40,
+        42,
+        46
+      ],
+      "powerball": 1
+    },
+    {
+      "draw_date": "2025-11-07",
+      "white_balls": [
+        16,
+        21,
+        23,
+        48,
+        70
+      ],
+      "powerball": 5
+    },
+    {
+      "draw_date": "2025-11-04",
+      "white_balls": [
+        11,
+        14,
+        17,
+        50,
+        57
+      ],
+      "powerball": 6
+    },
+    {
+      "draw_date": "2025-10-31",
+      "white_balls": [
+        2,
+        24,
+        52,
+        66,
+        68
+      ],
+      "powerball": 9
+    },
+    {
+      "draw_date": "2025-10-28",
+      "white_balls": [
+        2,
+        19,
+        33,
+        53,
+        61
+      ],
+      "powerball": 14
+    },
+    {
+      "draw_date": "2025-10-24",
+      "white_balls": [
+        11,
+        18,
+        31,
+        51,
+        56
+      ],
+      "powerball": 24
+    },
+    {
+      "draw_date": "2025-10-21",
+      "white_balls": [
+        2,
+        18,
+        27,
+        34,
+        59
+      ],
+      "powerball": 18
+    },
+    {
+      "draw_date": "2025-10-17",
+      "white_balls": [
+        9,
+        21,
+        27,
+        48,
+        56
+      ],
+      "powerball": 10
+    },
+    {
+      "draw_date": "2025-10-14",
+      "white_balls": [
+        12,
+        22,
+        49,
+        57,
+        58
+      ],
+      "powerball": 19
+    },
+    {
+      "draw_date": "2025-10-10",
+      "white_balls": [
+        3,
+        18,
+        23,
+        32,
+        56
+      ],
+      "powerball": 8
+    },
+    {
+      "draw_date": "2025-10-07",
+      "white_balls": [
+        17,
+        26,
+        33,
+        45,
+        56
+      ],
+      "powerball": 19
+    },
+    {
+      "draw_date": "2025-10-03",
+      "white_balls": [
+        18,
+        19,
+        38,
+        54,
+        57
+      ],
+      "powerball": 19
+    },
+    {
+      "draw_date": "2025-09-30",
+      "white_balls": [
+        4,
+        8,
+        27,
+        37,
+        63
+      ],
+      "powerball": 14
+    },
+    {
+      "draw_date": "2025-09-26",
+      "white_balls": [
+        4,
+        21,
+        27,
+        33,
+        49
+      ],
+      "powerball": 21
+    },
+    {
+      "draw_date": "2025-09-23",
+      "white_balls": [
+        13,
+        24,
+        41,
+        42,
+        70
+      ],
+      "powerball": 18
+    },
+    {
+      "draw_date": "2025-09-19",
+      "white_balls": [
+        2,
+        22,
+        27,
+        42,
+        58
+      ],
+      "powerball": 8
+    },
+    {
+      "draw_date": "2025-09-16",
+      "white_balls": [
+        10,
+        14,
+        34,
+        40,
+        43
+      ],
+      "powerball": 5
+    },
+    {
+      "draw_date": "2025-09-12",
+      "white_balls": [
+        17,
+        18,
+        21,
+        42,
+        64
+      ],
+      "powerball": 7
+    },
+    {
+      "draw_date": "2025-09-09",
+      "white_balls": [
+        6,
+        43,
+        52,
+        64,
+        65
+      ],
+      "powerball": 22
+    },
+    {
+      "draw_date": "2025-09-05",
+      "white_balls": [
+        6,
+        14,
+        36,
+        58,
+        62
+      ],
+      "powerball": 24
+    },
+    {
+      "draw_date": "2025-09-02",
+      "white_balls": [
+        7,
+        17,
+        35,
+        40,
+        64
+      ],
+      "powerball": 23
+    },
+    {
+      "draw_date": "2025-08-29",
+      "white_balls": [
+        13,
+        31,
+        32,
+        44,
+        45
+      ],
+      "powerball": 21
+    },
+    {
+      "draw_date": "2025-08-26",
+      "white_balls": [
+        7,
+        12,
+        30,
+        40,
+        69
+      ],
+      "powerball": 17
+    },
+    {
+      "draw_date": "2025-08-22",
+      "white_balls": [
+        18,
+        30,
+        44,
+        48,
+        50
+      ],
+      "powerball": 12
+    },
+    {
+      "draw_date": "2025-08-19",
+      "white_balls": [
+        10,
+        19,
+        24,
+        49,
+        68
+      ],
+      "powerball": 10
+    },
+    {
+      "draw_date": "2025-08-15",
+      "white_balls": [
+        4,
+        17,
+        27,
+        34,
+        69
+      ],
+      "powerball": 16
+    },
+    {
+      "draw_date": "2025-08-12",
+      "white_balls": [
+        1,
+        8,
+        31,
+        56,
+        67
+      ],
+      "powerball": 23
+    },
+    {
+      "draw_date": "2025-08-08",
+      "white_balls": [
+        2,
+        6,
+        8,
+        14,
+        49
+      ],
+      "powerball": 12
+    },
+    {
+      "draw_date": "2025-08-05",
+      "white_balls": [
+        12,
+        27,
+        42,
+        59,
+        65
+      ],
+      "powerball": 2
+    },
+    {
+      "draw_date": "2025-08-01",
+      "white_balls": [
+        18,
+        27,
+        29,
+        33,
+        70
+      ],
+      "powerball": 22
+    },
+    {
+      "draw_date": "2025-07-29",
+      "white_balls": [
+        17,
+        30,
+        34,
+        63,
+        67
+      ],
+      "powerball": 11
+    },
+    {
+      "draw_date": "2025-07-25",
+      "white_balls": [
+        14,
+        21,
+        25,
+        49,
+        52
+      ],
+      "powerball": 7
+    },
+    {
+      "draw_date": "2025-07-22",
+      "white_balls": [
+        22,
+        41,
+        42,
+        59,
+        69
+      ],
+      "powerball": 17
+    },
+    {
+      "draw_date": "2025-07-18",
+      "white_balls": [
+        11,
+        43,
+        54,
+        55,
+        63
+      ],
+      "powerball": 3
+    },
+    {
+      "draw_date": "2025-07-15",
+      "white_balls": [
+        6,
+        10,
+        24,
+        35,
+        43
+      ],
+      "powerball": 1
+    },
+    {
+      "draw_date": "2025-07-11",
+      "white_balls": [
+        12,
+        23,
+        24,
+        31,
+        56
+      ],
+      "powerball": 1
+    },
+    {
+      "draw_date": "2025-07-08",
+      "white_balls": [
+        4,
+        6,
+        38,
+        44,
+        62
+      ],
+      "powerball": 24
+    },
+    {
+      "draw_date": "2025-07-04",
+      "white_balls": [
+        17,
+        20,
+        24,
+        41,
+        42
+      ],
+      "powerball": 24
+    },
+    {
+      "draw_date": "2025-07-01",
+      "white_balls": [
+        19,
+        28,
+        31,
+        39,
+        54
+      ],
+      "powerball": 5
+    },
+    {
+      "draw_date": "2025-06-27",
+      "white_balls": [
+        18,
+        21,
+        29,
+        42,
+        50
+      ],
+      "powerball": 2
+    },
+    {
+      "draw_date": "2025-06-24",
+      "white_balls": [
+        10,
+        11,
+        18,
+        24,
+        60
+      ],
+      "powerball": 20
+    },
+    {
+      "draw_date": "2025-06-20",
+      "white_balls": [
+        26,
+        49,
+        58,
+        61,
+        63
+      ],
+      "powerball": 9
+    },
+    {
+      "draw_date": "2025-06-17",
+      "white_balls": [
+        16,
+        23,
+        39,
+        46,
+        55
+      ],
+      "powerball": 12
+    },
+    {
+      "draw_date": "2025-06-13",
+      "white_balls": [
+        8,
+        10,
+        22,
+        40,
+        47
+      ],
+      "powerball": 1
+    },
+    {
+      "draw_date": "2025-06-10",
+      "white_balls": [
+        10,
+        11,
+        14,
+        38,
+        45
+      ],
+      "powerball": 24
+    },
+    {
+      "draw_date": "2025-06-06",
+      "white_balls": [
+        16,
+        40,
+        54,
+        56,
+        57
+      ],
+      "powerball": 3
+    },
+    {
+      "draw_date": "2025-06-03",
+      "white_balls": [
+        16,
+        24,
+        29,
+        36,
+        45
+      ],
+      "powerball": 13
+    },
+    {
+      "draw_date": "2025-05-30",
+      "white_balls": [
+        2,
+        28,
+        37,
+        38,
+        58
+      ],
+      "powerball": 13
+    },
+    {
+      "draw_date": "2025-05-27",
+      "white_balls": [
+        6,
+        28,
+        34,
+        48,
+        62
+      ],
+      "powerball": 9
+    },
+    {
+      "draw_date": "2025-05-23",
+      "white_balls": [
+        7,
+        18,
+        40,
+        55,
+        68
+      ],
+      "powerball": 18
+    },
+    {
+      "draw_date": "2025-05-20",
+      "white_balls": [
+        18,
+        30,
+        33,
+        55,
+        64
+      ],
+      "powerball": 11
+    },
+    {
+      "draw_date": "2025-05-16",
+      "white_balls": [
+        2,
+        22,
+        42,
+        62,
+        66
+      ],
+      "powerball": 14
+    },
+    {
+      "draw_date": "2025-05-13",
+      "white_balls": [
+        6,
+        29,
+        33,
+        47,
+        68
+      ],
+      "powerball": 20
+    },
+    {
+      "draw_date": "2025-05-09",
+      "white_balls": [
+        9,
+        10,
+        12,
+        48,
+        60
+      ],
+      "powerball": 16
+    },
+    {
+      "draw_date": "2025-05-06",
+      "white_balls": [
+        16,
+        17,
+        43,
+        46,
+        58
+      ],
+      "powerball": 16
+    },
+    {
+      "draw_date": "2025-05-02",
+      "white_balls": [
+        14,
+        37,
+        40,
+        41,
+        68
+      ],
+      "powerball": 2
+    },
+    {
+      "draw_date": "2025-04-29",
+      "white_balls": [
+        16,
+        33,
+        40,
+        51,
+        57
+      ],
+      "powerball": 10
+    },
+    {
+      "draw_date": "2025-04-25",
+      "white_balls": [
+        38,
+        40,
+        60,
+        62,
+        70
+      ],
+      "powerball": 9
+    },
+    {
+      "draw_date": "2025-04-22",
+      "white_balls": [
+        25,
+        39,
+        49,
+        52,
+        65
+      ],
+      "powerball": 22
+    },
+    {
+      "draw_date": "2025-04-18",
+      "white_balls": [
+        5,
+        13,
+        15,
+        17,
+        28
+      ],
+      "powerball": 1
+    },
+    {
+      "draw_date": "2025-04-15",
+      "white_balls": [
+        6,
+        10,
+        13,
+        24,
+        63
+      ],
+      "powerball": 2
+    },
+    {
+      "draw_date": "2025-04-11",
+      "white_balls": [
+        15,
+        37,
+        38,
+        56,
+        58
+      ],
+      "powerball": 19
+    },
+    {
+      "draw_date": "2025-04-08",
+      "white_balls": [
+        10,
+        16,
+        50,
+        60,
+        61
+      ],
+      "powerball": 17
+    }
+  ]
+}
