@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FP60XF0554"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FP60XF0554');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mega Millions Winning Numbers, Quick Pick &amp; Ticket Checker | LottoPickHub</title>
+<meta name="description" content="Latest Mega Millions winning numbers, a free quick pick generator, ticket checker, and historical draw stats — updated daily.">
+<link rel="canonical" href="https://lottopickhub.com/megamillions/">
+<link rel="icon" type="image/png" href="/assets/lottopickhub-icon.png">
+
+<!-- Open Graph / social share preview -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="LottoPickHub">
+<meta property="og:title" content="Mega Millions Winning Numbers, Quick Pick & Ticket Checker | LottoPickHub">
+<meta property="og:description" content="Latest Mega Millions winning numbers, a free quick pick generator, ticket checker, and historical draw stats — updated daily.">
+<meta property="og:url" content="https://lottopickhub.com/megamillions/">
+<meta property="og:image" content="https://lottopickhub.com/assets/og-share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="LottoPickHub — Powerball results, quick picks & historical stats">
+
+<!-- Twitter/X card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mega Millions Winning Numbers, Quick Pick & Ticket Checker | LottoPickHub">
+<meta name="twitter:description" content="Latest Mega Millions winning numbers, a free quick pick generator, ticket checker, and historical draw stats — updated daily.">
+<meta name="twitter:image" content="https://lottopickhub.com/assets/og-share.png">
+
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<div id="site-header"></div>
+<div class="page-shell">
+<div class="card">
+  <div class="game-pills">
+    <span class="game-pills-label">Multi-state</span>
+    <a href="/powerball/" class="game-pill">Powerball</a>
+    <a href="/megamillions/" class="game-pill active">Mega Millions</a>
+    <span class="game-pill" style="opacity:0.5;">Cash4Life</span>
+    <span class="game-pill" style="opacity:0.5;">Lucky for Life</span>
+  </div>
+  <div class="breadcrumb"><a href="/">Home</a> / <span class="current">Mega Millions</span></div>
+  <div class="section">
+    <p class="section-sub" id="draw-date">Latest draw</p>
+    <div class="ball-row" id="latest-draw-balls"></div>
+  </div>
+  <div class="section-divider"></div>
+  <div class="section">
+    <p class="section-label">Quick pick generator</p>
+    <div class="ball-row" id="quick-pick-balls" style="margin-bottom:12px;"></div>
+    <div class="quick-pick-actions">
+      <button class="btn-gold" id="quick-pick-btn">Generate</button>
+      <span class="fine-print">Fully random - not optimized picks</span>
+    </div>
+  </div>
+  <div class="section-divider"></div>
+  <div class="section">
+    <p class="section-label">Did I win? Ticket checker</p>
+    <div class="checker-ball-row" id="checker-ball-row"></div>
+    <div class="quick-pick-actions">
+      <button class="btn-gold" id="checker-btn">Check</button>
+      <span class="fine-print">Checked against the latest draw only</span>
+    </div>
+    <div class="checker-result" id="checker-result"></div>
+  </div>
+  <div class="section-divider"></div>
+  <div class="section" id="stats-section"></div>
+  <div class="section-divider"></div>
+  <div class="section" id="hotcold-section"></div>
+  <div class="section-divider"></div>
+  <div class="section" id="heatmap-section"></div>
+  <div class="section-divider"></div>
+  <div class="section" id="pairs-section"></div>
+  <div class="section-divider"></div>
+  <div class="section" id="explorer-section"></div>
+  <div class="section-divider"></div>
+  <div class="section" id="lookup-section"></div>
+  <div class="footer-strip">
+    <span>Historical curiosity and entertainment only — not a prediction tool.</span>
+    <span>Data source: NY State Open Data (official)</span>
+  </div>
+</div>
+</div>
+<script src="/assets/site.js"></script>
+<script src="/assets/lottery-stats.js"></script>
+<script src="/assets/donate.js"></script>
+<script src="/assets/header.js"></script>
+<script>
+async function init() {
+  const data = await fetchPowerballData('/data/megamillions.json');
+  renderLatestDraw('latest-draw-balls', 'draw-date', data);
+  initQuickPick('quick-pick-balls', 'quick-pick-btn', data);
+  initTicketChecker('checker-ball-row', 'checker-btn', 'checker-result', data);
+  renderStats('stats-section', data);
+}
+init().catch(err => {
+  console.error(err);
+  document.getElementById('latest-draw-balls').textContent = 'Could not load results.';
+});
+
+initLotteryStats({
+  hotcold: 'hotcold-section',
+  heatmap: 'heatmap-section',
+  pairs: 'pairs-section',
+  explorer: 'explorer-section',
+  lookup: 'lookup-section',
+}, '/data/megamillions-history.json', 'Mega Ball').catch(err => {
+  console.error(err);
+  document.getElementById('hotcold-section').textContent = 'Could not load historical stats.';
+});
+</script>
+</body>
+</html>
