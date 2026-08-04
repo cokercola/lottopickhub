@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-08-04T01:40:20.768923Z",
+  "updated_at": "2026-08-04T02:02:17.033596Z",
   "since": "2025-04-08",
-  "note": "Only includes draws under the current 5/70 + 1/24 Mega Ball matrix, in effect since 2025-04-08. Earlier draws used a 1-25 Mega Ball range (and other ranges further back) and are excluded to keep frequency stats valid. This is a much shorter window than the Powerball history (which goes back to 2015) because Mega Millions changed its matrix far more recently.",
+  "note": "Only includes draws since the 2025-04-08 matrix change (5/70 + 1/24 Mega Ball). Earlier draws used a different Mega Ball range and are excluded to keep frequency stats valid. Much shorter history than Powerball's, since this matrix is far more recent.",
   "draws": [
     {
       "draw_date": "2025-04-08",
@@ -1388,6 +1388,138 @@
         50
       ],
       "powerball": 12
+    },
+    {
+      "draw_date": "2026-06-23",
+      "white_balls": [
+        48,
+        51,
+        60,
+        63,
+        66
+      ],
+      "powerball": 20
+    },
+    {
+      "draw_date": "2026-06-26",
+      "white_balls": [
+        5,
+        13,
+        30,
+        33,
+        52
+      ],
+      "powerball": 6
+    },
+    {
+      "draw_date": "2026-06-30",
+      "white_balls": [
+        26,
+        41,
+        50,
+        53,
+        62
+      ],
+      "powerball": 12
+    },
+    {
+      "draw_date": "2026-07-03",
+      "white_balls": [
+        5,
+        9,
+        29,
+        47,
+        57
+      ],
+      "powerball": 16
+    },
+    {
+      "draw_date": "2026-07-07",
+      "white_balls": [
+        2,
+        31,
+        35,
+        36,
+        63
+      ],
+      "powerball": 12
+    },
+    {
+      "draw_date": "2026-07-10",
+      "white_balls": [
+        2,
+        39,
+        44,
+        46,
+        56
+      ],
+      "powerball": 23
+    },
+    {
+      "draw_date": "2026-07-14",
+      "white_balls": [
+        2,
+        4,
+        10,
+        48,
+        56
+      ],
+      "powerball": 22
+    },
+    {
+      "draw_date": "2026-07-17",
+      "white_balls": [
+        22,
+        34,
+        45,
+        48,
+        55
+      ],
+      "powerball": 14
+    },
+    {
+      "draw_date": "2026-07-21",
+      "white_balls": [
+        25,
+        37,
+        59,
+        68,
+        70
+      ],
+      "powerball": 10
+    },
+    {
+      "draw_date": "2026-07-24",
+      "white_balls": [
+        2,
+        5,
+        42,
+        44,
+        60
+      ],
+      "powerball": 1
+    },
+    {
+      "draw_date": "2026-07-28",
+      "white_balls": [
+        34,
+        48,
+        49,
+        59,
+        70
+      ],
+      "powerball": 12
+    },
+    {
+      "draw_date": "2026-07-31",
+      "white_balls": [
+        4,
+        18,
+        26,
+        43,
+        51
+      ],
+      "powerball": 4
     }
   ]
 }
