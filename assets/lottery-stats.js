@@ -45,10 +45,10 @@ function windowTabsHTML(current, groupId) {
 
 /* ---------- Hot & cold ---------- */
 
-function computeHotCold(draws, windowSize) {
+function computeHotCold(draws, windowSize, whiteBallMax) {
   const relevant = windowedDraws(draws, windowSize);
   const counts = {};
-  for (let n = 1; n <= 69; n++) counts[n] = 0;
+  for (let n = 1; n <= whiteBallMax; n++) counts[n] = 0;
   relevant.forEach(d => d.white_balls.forEach(n => { counts[n] += 1; }));
   const entries = Object.entries(counts).map(([n, c]) => ({ number: Number(n), count: c }));
   const hot = [...entries].sort((a, b) => b.count - a.count || a.number - b.number).slice(0, 6);
@@ -56,10 +56,10 @@ function computeHotCold(draws, windowSize) {
   return { hot, cold, drawCount: relevant.length };
 }
 
-function renderHotCold(containerId, draws, windowSize) {
+function renderHotCold(containerId, draws, windowSize, whiteBallMax) {
   const el = document.getElementById(containerId);
   if (!el) return;
-  const { hot, cold, drawCount } = computeHotCold(draws, windowSize);
+  const { hot, cold, drawCount } = computeHotCold(draws, windowSize, whiteBallMax);
   el.innerHTML = `
     <p class="section-label">Hot &amp; cold numbers</p>
     ${windowTabsHTML(windowSize, 'shared')}
@@ -79,9 +79,9 @@ function renderHotCold(containerId, draws, windowSize) {
 
 /* ---------- Frequency heatmap ---------- */
 
-function computeFrequency(draws) {
+function computeFrequency(draws, whiteBallMax) {
   const counts = {};
-  for (let n = 1; n <= 69; n++) counts[n] = 0;
+  for (let n = 1; n <= whiteBallMax; n++) counts[n] = 0;
   draws.forEach(d => d.white_balls.forEach(n => { counts[n] += 1; }));
   return counts;
 }
@@ -95,21 +95,21 @@ function heatClass(count, max) {
   return 'heat-1';
 }
 
-function renderHeatmap(containerId, draws, windowSize, onCellClick) {
+function renderHeatmap(containerId, draws, windowSize, whiteBallMax, onCellClick) {
   const el = document.getElementById(containerId);
   if (!el) return;
 
   const relevant = windowedDraws(draws, windowSize);
-  const counts = computeFrequency(relevant);
+  const counts = computeFrequency(relevant, whiteBallMax);
   const max = Math.max(...Object.values(counts));
 
   const cells = [];
-  for (let n = 1; n <= 69; n++) {
+  for (let n = 1; n <= whiteBallMax; n++) {
     cells.push(`<button type="button" class="heat-cell ${heatClass(counts[n], max)}" data-num="${n}" title="${n}: drawn ${counts[n]} times">${n}</button>`);
   }
 
   el.innerHTML = `
-    <p class="section-label">Frequency heatmap <span class="muted-suffix">(1-69)</span></p>
+    <p class="section-label">Frequency heatmap <span class="muted-suffix">(1-${whiteBallMax})</span></p>
     ${windowTabsHTML(windowSize, 'shared')}
     <p class="section-sub">Based on the last ${relevant.length} draw${relevant.length === 1 ? '' : 's'}</p>
     <div class="heat-legend">
@@ -380,11 +380,20 @@ async function initLotteryStats(ids, historyPath, specialBallLabel) {
   const draws = history.draws;
   const ballLabel = specialBallLabel || 'Powerball';
 
+  // Derived directly from the data rather than hardcoded, so this
+  // works correctly for any game's white-ball range (Powerball tops
+  // out at 69, Mega Millions at 70) without needing to remember to
+  // pass it in - a game with a different range just works.
+  const whiteBallMax = draws.reduce(
+    (max, d) => Math.max(max, ...d.white_balls),
+    1,
+  );
+
   let windowSize = 100;
 
   function renderShared() {
-    if (ids.hotcold) renderHotCold(ids.hotcold, draws, windowSize);
-    if (ids.heatmap) renderHeatmap(ids.heatmap, draws, windowSize, num => {
+    if (ids.hotcold) renderHotCold(ids.hotcold, draws, windowSize, whiteBallMax);
+    if (ids.heatmap) renderHeatmap(ids.heatmap, draws, windowSize, whiteBallMax, num => {
       if (window.lotteryJumpToNumber) window.lotteryJumpToNumber(num);
     });
     if (ids.pairs) renderPairs(ids.pairs, draws, windowSize);
