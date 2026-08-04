@@ -89,7 +89,7 @@
 </div>
 </div>
 <script src="/assets/site.js"></script>
-<script src="/assets/powerball-stats.js"></script>
+<script src="/assets/lottery-stats.js"></script>
 <script src="/assets/donate.js"></script>
 <script src="/assets/header.js"></script>
 <script>
@@ -105,13 +105,13 @@ init().catch(err => {
   document.getElementById('latest-draw-balls').textContent = 'Could not load results.';
 });
 
-initPowerballStats({
+initLotteryStats({
   hotcold: 'hotcold-section',
   heatmap: 'heatmap-section',
   pairs: 'pairs-section',
   explorer: 'explorer-section',
   lookup: 'lookup-section',
-}).catch(err => {
+}, '/data/powerball-history.json', 'Powerball').catch(err => {
   console.error(err);
   document.getElementById('hotcold-section').textContent = 'Could not load historical stats.';
 });
