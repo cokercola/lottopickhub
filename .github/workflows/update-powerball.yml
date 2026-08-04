@@ -1,7 +1,8 @@
 name: Update Powerball results
 on:
   schedule:
-    - cron: "0 12 * * *"   # Daily at 12:00 UTC - Powerball draws Mon/Wed/Sat evenings ET, this comfortably catches each new result the next morning
+    - cron: "30 4 * * 0,2,4"   # 12:30 AM EDT (UTC-4) — Mar–Nov
+    - cron: "30 5 * * 0,2,4"   # 12:30 AM EST (UTC-5) — Nov–Mar
   workflow_dispatch: {}
 permissions:
   contents: write
