@@ -1,13 +1,10 @@
 name: Update Powerball results
-
 on:
   schedule:
     - cron: "0 12 * * *"   # Daily at 12:00 UTC - Powerball draws Mon/Wed/Sat evenings ET, this comfortably catches each new result the next morning
   workflow_dispatch: {}
-
 permissions:
   contents: write
-
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -24,6 +21,6 @@ jobs:
         run: |
           git config user.name "lottopickhub-bot"
           git config user.email "actions@github.com"
-          git add data/powerball.json
+          git add data/powerball.json data/powerball-history.json
           git diff --staged --quiet || git commit -m "Update Powerball results"
           git push
