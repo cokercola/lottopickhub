@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-05T07:13:54.166193Z",
+  "updated_at": "2026-08-05T08:01:51.212808Z",
   "game": {
     "name": "Mega Millions",
     "white_ball_count": 5,
@@ -7,15 +7,15 @@
     "red_ball_max": 24
   },
   "latest_draw": {
-    "draw_date": "2026-07-31",
+    "draw_date": "2026-08-04",
     "white_balls": [
-      4,
-      18,
-      26,
-      43,
-      51
+      14,
+      21,
+      51,
+      55,
+      65
     ],
-    "powerball": 4,
+    "powerball": 21,
     "multiplier": null
   },
   "last_jackpot": {
@@ -24,14 +24,26 @@
     "note": "Manually maintained - see script docstring."
   },
   "stats_since_jackpot": {
-    "draws_since_jackpot": 2,
+    "draws_since_jackpot": 3,
     "most_drawn": [
+      {
+        "number": 51,
+        "count": 2
+      },
       {
         "number": 4,
         "count": 1
       },
       {
+        "number": 14,
+        "count": 1
+      },
+      {
         "number": 18,
+        "count": 1
+      },
+      {
+        "number": 21,
         "count": 1
       },
       {
@@ -53,18 +65,6 @@
       {
         "number": 49,
         "count": 1
-      },
-      {
-        "number": 51,
-        "count": 1
-      },
-      {
-        "number": 59,
-        "count": 1
-      },
-      {
-        "number": 70,
-        "count": 1
       }
     ],
     "not_drawn": [
@@ -80,13 +80,11 @@
       11,
       12,
       13,
-      14,
       15,
       16,
       17,
       19,
       20,
-      21,
       22,
       23,
       24,
@@ -114,7 +112,6 @@
       52,
       53,
       54,
-      55,
       56,
       57,
       58,
@@ -123,7 +120,6 @@
       62,
       63,
       64,
-      65,
       66,
       67,
       68,
@@ -131,6 +127,18 @@
     ]
   },
   "recent_draws": [
+    {
+      "draw_date": "2026-08-04",
+      "white_balls": [
+        14,
+        21,
+        51,
+        55,
+        65
+      ],
+      "powerball": 21,
+      "multiplier": null
+    },
     {
       "draw_date": "2026-07-31",
       "white_balls": [
@@ -2518,18 +2526,6 @@
       ],
       "powerball": 25,
       "multiplier": "02"
-    },
-    {
-      "draw_date": "2024-09-03",
-      "white_balls": [
-        12,
-        41,
-        43,
-        52,
-        55
-      ],
-      "powerball": 9,
-      "multiplier": "04"
     }
   ]
 }
