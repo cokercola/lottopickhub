@@ -53,6 +53,30 @@
   </div>
   <div class="section-divider"></div>
   <div class="section">
+    <p class="section-label">Next drawing</p>
+    <div class="next-drawing-card" id="next-drawing-card">
+      <div>
+        <p class="next-drawing-date" id="next-drawing-date">—</p>
+        <div class="countdown-row" id="countdown-row">
+          <div class="countdown-box"><span class="num" id="countdown-hours">—</span><span class="unit">hrs</span></div>
+          <div class="countdown-box"><span class="num" id="countdown-minutes">—</span><span class="unit">min</span></div>
+          <div class="countdown-box"><span class="num" id="countdown-seconds">—</span><span class="unit">sec</span></div>
+        </div>
+      </div>
+      <div class="next-drawing-money">
+        <p class="label">Est. jackpot</p>
+        <p class="amount" id="next-jackpot-amount">—</p>
+        <p class="label">Cash value</p>
+        <p class="amount cash" id="next-cash-value">—</p>
+      </div>
+    </div>
+    <div id="double-play-wrap" style="margin-top:14px; display:none;">
+      <p class="section-label" style="margin-bottom:8px;">Double play</p>
+      <div class="ball-row" id="double-play-balls"></div>
+    </div>
+  </div>
+  <div class="section-divider"></div>
+  <div class="section">
     <p class="section-label">Quick pick generator</p>
     <div class="ball-row" id="quick-pick-balls" style="margin-bottom:12px;"></div>
     <div class="quick-pick-actions">
@@ -115,6 +139,62 @@ initLotteryStats({
   console.error(err);
   document.getElementById('hotcold-section').textContent = 'Could not load historical stats.';
 });
+
+let nextDrawingTargetDate = null;
+
+function updateCountdown() {
+  if (!nextDrawingTargetDate) return;
+  const now = new Date();
+  const diffMs = nextDrawingTargetDate - now;
+  if (diffMs <= 0) {
+    document.getElementById('countdown-hours').textContent = '0';
+    document.getElementById('countdown-minutes').textContent = '0';
+    document.getElementById('countdown-seconds').textContent = '0';
+    return;
+  }
+  const hours = Math.floor(diffMs / (1000 * 60 * 60));
+  const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((diffMs % (1000 * 60)) / 1000);
+  document.getElementById('countdown-hours').textContent = hours;
+  document.getElementById('countdown-minutes').textContent = minutes;
+  document.getElementById('countdown-seconds').textContent = seconds;
+}
+
+fetch('/data/powerball-jackpot.json')
+  .then(res => res.json())
+  .then(data => {
+    if (data.jackpot) document.getElementById('next-jackpot-amount').textContent = data.jackpot;
+    if (data.cash_value) document.getElementById('next-cash-value').textContent = data.cash_value;
+
+    if (data.next_drawing_date) {
+      // Powerball draws at 10:59pm ET. Using EDT (-04:00) since it's
+      // correct for most of the year (Mar-Nov); during EST months
+      // (Nov-Mar) this countdown will run about an hour fast. Same
+      // DST tradeoff as the cron scheduling elsewhere in this project -
+      // fine for a countdown display, not something to over-engineer.
+      const d = new Date(data.next_drawing_date + 'T22:59:00-04:00');
+      document.getElementById('next-drawing-date').textContent = d.toLocaleDateString('en-US', {
+        weekday: 'short', month: 'short', day: 'numeric', year: 'numeric'
+      });
+      nextDrawingTargetDate = d;
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    }
+
+    if (data.double_play && data.double_play.white_balls) {
+      const wrap = document.getElementById('double-play-wrap');
+      const row = document.getElementById('double-play-balls');
+      row.innerHTML = data.double_play.white_balls.map(n =>
+        `<div class="ball small">${n}</div>`
+      ).join('') + `<div class="ball small special">${data.double_play.powerball}</div>`;
+      wrap.style.display = 'block';
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    document.getElementById('next-drawing-card').innerHTML =
+      '<span class="fine-print">Next drawing info unavailable right now.</span>';
+  });
 </script>
 </body>
 </html>
