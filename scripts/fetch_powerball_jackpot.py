@@ -43,7 +43,14 @@ def fetch_page(url):
     resp = requests.get(
         url,
         timeout=REQUEST_TIMEOUT,
-        headers={"User-Agent": "Mozilla/5.0 (LottoPickHub jackpot fetch; contact: your-contact-email-here)"},
+        headers={
+            "User-Agent": "Mozilla/5.0 (LottoPickHub jackpot fetch; contact: your-contact-email-here)",
+            # explicitly exclude Brotli (br) -- requests can't auto-decompress it
+            # without the optional 'brotli' package installed, which produced
+            # garbled binary-looking text when the server sent br-encoded
+            # content and we tried to read it as plain text
+            "Accept-Encoding": "gzip, deflate",
+        },
     )
     resp.raise_for_status()
     return resp.text
