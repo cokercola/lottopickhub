@@ -6,11 +6,19 @@ content on powerball.com - there is no public structured dataset for
 them (confirmed by checking data.ny.gov's catalog directly).
 
 This is intentionally narrow: it scrapes ONLY these specific values from
-powerball.com's draw-result page, not the whole page. Keeping the scrape
-target small minimizes how much can break if Powerball changes their
-page layout, but doesn't eliminate that risk entirely - if this script
-starts failing, the site's HTML structure has likely changed and the
-selectors below need updating.
+powerball.com's homepage and Double Play page, not full pages. Keeping
+the scrape target small minimizes how much can break if Powerball
+changes their page layout, but doesn't eliminate that risk entirely -
+if this script starts failing, the site's HTML structure has likely
+changed and the selectors below need updating.
+
+Jackpot/cash value are pulled from the homepage specifically, not the
+draw-result page -- the draw-result page shows the jackpot as it was
+tied to that specific PAST drawing (stale once the drawing happens and
+rolls over), while the homepage shows the live, current estimate for
+the upcoming drawing. Confirmed by comparing both pages directly: after
+the Aug 5 drawing, draw-result still showed the pre-drawing $794M while
+the homepage already showed the rolled-over $856M.
 
 Writes data/powerball-jackpot.json, kept separate from data/powerball.json
 (the NY Open Data output) since these come from a different, less stable
@@ -32,7 +40,7 @@ import datetime
 import requests
 from bs4 import BeautifulSoup
 
-DRAW_RESULT_URL = "https://www.powerball.com/draw-result"
+HOMEPAGE_URL = "https://www.powerball.com/"
 DOUBLE_PLAY_URL = "https://www.powerball.com/double-play"
 OUTPUT_PATH = "data/powerball-jackpot.json"
 
@@ -165,12 +173,12 @@ def main():
     }
 
     try:
-        draw_result_html = fetch_page(DRAW_RESULT_URL)
-        jackpot_info = parse_jackpot_and_cash_value(draw_result_html, debug=debug)
+        homepage_html = fetch_page(HOMEPAGE_URL)
+        jackpot_info = parse_jackpot_and_cash_value(homepage_html, debug=debug)
         result["jackpot"] = jackpot_info["jackpot"]
         result["cash_value"] = jackpot_info["cash_value"]
 
-        next_date = parse_next_drawing_date(draw_result_html, debug=debug)
+        next_date = parse_next_drawing_date(homepage_html, debug=debug)
         if next_date:
             result["next_drawing_date"] = next_date
             result["next_drawing_date_source"] = "scraped"
@@ -179,7 +187,11 @@ def main():
             result["next_drawing_date_source"] = "computed_from_schedule"
             print("Could not scrape next drawing date, using computed fallback from fixed Mon/Wed/Sat schedule")
 
-        result["double_play"] = parse_double_play(draw_result_html, debug=debug)
+        try:
+            double_play_html = fetch_page(DOUBLE_PLAY_URL)
+            result["double_play"] = parse_double_play(double_play_html, debug=debug)
+        except requests.RequestException as e:
+            print(f"Double Play fetch failed: {e}", file=sys.stderr)
 
     except requests.RequestException as e:
         print(f"Fetch failed: {e}", file=sys.stderr)
