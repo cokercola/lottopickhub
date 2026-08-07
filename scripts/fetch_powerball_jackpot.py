@@ -70,8 +70,8 @@ def parse_jackpot_and_cash_value(html, debug=False):
         print(text[:3000])
         print("----- END PAGE TEXT -----")
 
-    jackpot_match = re.search(r"Estimated Jackpot\s*\$?([\d,.]+\s*(?:Million|Billion))", text, re.IGNORECASE)
-    cash_match = re.search(r"Cash Value\s*\$?([\d,.]+\s*(?:Million|Billion))", text, re.IGNORECASE)
+    jackpot_match = re.search(r"Estimated Jackpot:?\s*\$?([\d,.]+\s*(?:Million|Billion))", text, re.IGNORECASE)
+    cash_match = re.search(r"Cash Value:?\s*\$?([\d,.]+\s*(?:Million|Billion))", text, re.IGNORECASE)
 
     return {
         "jackpot": f"${jackpot_match.group(1)}" if jackpot_match else None,
