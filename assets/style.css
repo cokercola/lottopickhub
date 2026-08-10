@@ -795,3 +795,93 @@ a { color: inherit; }
 .jackpot-amount-line strong {
   color: var(--gold);
 }
+
+/* --- Pick 3 page --- */
+
+.pick3-state-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pick3-draws-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 560px) {
+  .pick3-draws-row { grid-template-columns: 1fr; }
+}
+.pick3-draw-card {
+  background: var(--white);
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.pick3-draw-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 0 0 10px;
+}
+
+/* Digit heatmap by position - three rows instead of one big grid,
+   since Pick 3 only has 10 possible digits per position. */
+.pos-heat-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.pos-heat-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.pos-heat-label {
+  width: 72px;
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.pos-heat-cells {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.pos-heat-cells .heat-cell {
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+/* Front pair / back pair frequency */
+.pairs-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+@media (max-width: 560px) {
+  .pairs-columns { grid-template-columns: 1fr; }
+}
+.pair-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--white);
+  border: 1px solid var(--panel-border);
+  border-radius: 16px;
+  padding: 5px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+}
+.pair-chip-count {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gold);
+}
