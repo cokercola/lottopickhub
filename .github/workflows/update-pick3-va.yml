@@ -1,35 +1,27 @@
 name: Update Pick 3 - Virginia
-
 on:
-  workflow_dispatch: {}   # lets you click "Run workflow" manually in the Actions tab
   schedule:
-    # VA draws twice daily (~1:59pm and ~11:00pm ET). Two runs a day,
-    # timed a bit after each draw to give the lottery time to post
-    # results. Cron is UTC - these are approximate and, like the
-    # Powerball workflow, don't bother correcting for EST/EDT.
-    - cron: '30 19 * * *'   # ~2:30pm ET
-    - cron: '30 4 * * *'    # ~11:30pm ET (next UTC day)
-
+    - cron: "30 19 * * *"  # ~2:30 PM ET (approximate - not DST-corrected, same as Powerball workflow)
+    - cron: "30 4 * * *"   # ~11:30 PM ET
+  workflow_dispatch: {}
+permissions:
+  contents: write
 jobs:
-  update-pick3-va:
+  update:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
-
+          python-version: "3.12"
       - name: Install dependencies
         run: pip install requests
-
       - name: Fetch VA Pick 3 results
         run: python scripts/fetch_pick3_results_va.py
-
       - name: Commit updated data
         run: |
-          git config user.name "actions-user"
-          git config user.email "actions@users.noreply.github.com"
+          git config user.name "lottopickhub-bot"
+          git config user.email "actions@github.com"
           git add data/pick3/va-history.json
-          git diff --staged --quiet || git commit -m "Update VA Pick 3 data"
+          git diff --staged --quiet || git commit -m "Update VA Pick 3 results"
           git push
