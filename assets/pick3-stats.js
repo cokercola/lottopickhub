@@ -398,11 +398,21 @@ async function initPick3Stats(ids, states, defaultStateId) {
         renderAll();
       });
     });
+    bindHeatmapTabs();
+  }
+
+  // Separate from bindTabs() because the heatmap tabs get replaced
+  // (new DOM elements, listeners gone) every time a heatmap tab is
+  // clicked - not just on a full renderAll() like the shared tabs.
+  // Without re-calling this after each heatmap render, only the
+  // first click on any heatmap tab would ever do anything.
+  function bindHeatmapTabs() {
     document.querySelectorAll('[data-tab-group="heatmap"] .stat-tab').forEach(b => {
       b.addEventListener('click', () => {
         renderHeatmap(ids.heatmap, draws, Number(b.dataset.window), (digit, pos) => {
           if (window.pick3JumpToDigit) window.pick3JumpToDigit(digit, pos);
         });
+        bindHeatmapTabs();
       });
     });
   }
