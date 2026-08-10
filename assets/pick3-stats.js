@@ -379,6 +379,8 @@ async function initPick3Stats(ids, states, defaultStateId) {
     const history = await fetchPick3History(currentState.historyPath);
     draws = history.draws;
     renderAll();
+    if (ids.lookup) initLookup(ids.lookup, draws);
+    if (ids.explorer) initExplorer(ids.explorer, draws);
   }
 
   function renderAll() {
@@ -417,28 +419,16 @@ async function initPick3Stats(ids, states, defaultStateId) {
     });
   }
 
-  // State dropdown lives outside the individually-rendered sections
-  // (it's shared page chrome), so it's rendered once by the caller's
-  // HTML and wired here rather than regenerated on every renderAll().
+  // The state dropdown itself is shared page chrome, rendered once by
+  // the caller's HTML - pick3/index.html also has its own listener on
+  // this same element (to refresh the Latest Draws cards and ticket
+  // checker). Both listeners coexist fine on the same DOM node; the
+  // important thing is this code must NOT replace or clone that node,
+  // or it orphans whichever listener was attached first.
   const stateSelect = document.getElementById('pick3-state-select');
   if (stateSelect) {
     stateSelect.addEventListener('change', () => loadState(stateSelect.value));
   }
 
   await loadState(currentState.id);
-  if (ids.lookup) initLookup(ids.lookup, draws);
-  if (ids.explorer) initExplorer(ids.explorer, draws);
-
-  // Re-init lookup/explorer on state change too, since they depend on
-  // the full draws array for that state.
-  const originalLoadState = loadState;
-  loadState = async function (stateId) {
-    await originalLoadState(stateId);
-    if (ids.lookup) initLookup(ids.lookup, draws);
-    if (ids.explorer) initExplorer(ids.explorer, draws);
-  };
-  if (stateSelect) {
-    stateSelect.replaceWith(stateSelect.cloneNode(true));
-    document.getElementById('pick3-state-select').addEventListener('change', e => loadState(e.target.value));
-  }
 }
