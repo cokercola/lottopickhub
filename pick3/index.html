@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FP60XF0554"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FP60XF0554');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pick 3 Winning Numbers, Ticket Checker &amp; Stats by State | LottoPickHub</title>
+<meta name="description" content="Latest Pick 3 winning numbers by state, a free ticket checker, digit heatmap, front/back pair frequency, and historical draw stats — updated daily.">
+<link rel="canonical" href="https://lottopickhub.com/pick3/">
+<link rel="icon" type="image/png" href="/assets/lottopickhub-icon.png">
+
+<!-- Open Graph / social share preview -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="LottoPickHub">
+<meta property="og:title" content="Pick 3 Winning Numbers, Ticket Checker & Stats by State | LottoPickHub">
+<meta property="og:description" content="Latest Pick 3 winning numbers by state, a free ticket checker, digit heatmap, front/back pair frequency, and historical draw stats — updated daily.">
+<meta property="og:url" content="https://lottopickhub.com/pick3/">
+<meta property="og:image" content="https://lottopickhub.com/assets/og-share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="LottoPickHub — Pick 3 results, ticket checker & historical stats">
+
+<!-- Twitter/X card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pick 3 Winning Numbers, Ticket Checker & Stats by State | LottoPickHub">
+<meta name="twitter:description" content="Latest Pick 3 winning numbers by state, a free ticket checker, digit heatmap, front/back pair frequency, and historical draw stats — updated daily.">
+<meta name="twitter:image" content="https://lottopickhub.com/assets/og-share.png">
+
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<div id="site-header"></div>
+<div class="page-shell">
+<div class="card">
+  <div class="game-pills">
+    <span class="game-pills-label">Multi-state</span>
+    <a href="/powerball/" class="game-pill">Powerball</a>
+    <a href="/megamillions/" class="game-pill">Mega Millions</a>
+    <a href="/pick3/" class="game-pill active">Pick 3</a>
+    <span class="game-pill" style="opacity:0.5;">Lucky for Life</span>
+  </div>
+  <div class="breadcrumb"><a href="/">Home</a> / <span class="current">Pick 3</span></div>
+
+  <div class="section">
+    <div class="pick3-state-row">
+      <p class="section-label" style="margin:0;">State</p>
+      <!--
+        Rendered once here, wired up inside initPick3Stats(). Options
+        are also generated from the STATES config below on page load,
+        this static one is just a no-JS fallback / first paint.
+      -->
+      <select class="explorer-select" id="pick3-state-select">
+        <option value="ny">New York</option>
+        <option value="sc" selected>South Carolina</option>
+        <option value="nc">North Carolina</option>
+        <option value="fl">Florida</option>
+        <option value="va">Virginia</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <div class="section">
+    <p class="section-label">Latest draws</p>
+    <div class="pick3-draws-row" id="pick3-draws-row">
+      <div class="pick3-draw-card">
+        <p class="pick3-draw-label">Midday</p>
+        <div class="ball-row" id="pick3-midday-balls"></div>
+        <p class="fine-print" id="pick3-midday-date">—</p>
+      </div>
+      <div class="pick3-draw-card">
+        <p class="pick3-draw-label">Evening</p>
+        <div class="ball-row" id="pick3-evening-balls"></div>
+        <p class="fine-print" id="pick3-evening-date">—</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <div class="section">
+    <p class="section-label">Did I win? Ticket checker</p>
+    <div class="checker-ball-row" id="pick3-checker-row"></div>
+    <div class="quick-pick-actions">
+      <button class="btn-gold" id="pick3-checker-btn">Check</button>
+      <span class="fine-print">Checked against the latest draws only — straight and box</span>
+    </div>
+    <div class="checker-result" id="pick3-checker-result"></div>
+  </div>
+
+  <div class="section-divider"></div>
+  <div class="section" id="hotcold-section"></div>
+  <div class="section-divider"></div>
+  <div class="section" id="heatmap-section"></div>
+  <div class="section-divider"></div>
+  <div class="section" id="pairs-section"></div>
+  <div class="section-divider"></div>
+  <div class="section" id="explorer-section"></div>
+  <div class="section-divider"></div>
+  <div class="section" id="lookup-section"></div>
+
+  <div class="footer-strip">
+    <span>Historical curiosity and entertainment only — not a prediction tool.</span>
+    <span id="pick3-source-note">Data source: state lottery open data</span>
+  </div>
+</div>
+</div>
+<script src="/assets/site.js"></script>
+<script src="/assets/pick3-stats.js"></script>
+<script src="/assets/donate.js"></script>
+<script src="/assets/header.js"></script>
+<script>
+/*
+  One entry per launch state. historyPath points at that state's
+  pick3-history JSON (same shape written by fetch_pick3_results.py -
+  see that script's docstring). hasFireball controls whether the
+  Fireball badge shows in the draw cards; sourceLabel feeds the
+  footer strip so the data-source credit updates when the state
+  changes.
+
+  NOTE: only "ny" has a confirmed, verified open-data source as of
+  this build (NY State Open Data, same Socrata pattern as the
+  Powerball feed). sc/nc/fl/va below are wired into the UI but their
+  fetch scripts and exact source URLs still need to be built per
+  fetch_pick3_results.py's docstring before those options will
+  actually load data.
+*/
+const PICK3_STATES = [
+  { id: 'ny', label: 'New York', historyPath: '/data/pick3/ny-history.json', hasFireball: false, sourceLabel: 'NY State Open Data (official)' },
+  { id: 'sc', label: 'South Carolina', historyPath: '/data/pick3/sc-history.json', hasFireball: true, sourceLabel: 'SC Education Lottery (official)' },
+  { id: 'nc', label: 'North Carolina', historyPath: '/data/pick3/nc-history.json', hasFireball: false, sourceLabel: 'NC Education Lottery (official)' },
+  { id: 'fl', label: 'Florida', historyPath: '/data/pick3/fl-history.json', hasFireball: false, sourceLabel: 'Florida Lottery (official)' },
+  { id: 'va', label: 'Virginia', historyPath: '/data/pick3/va-history.json', hasFireball: false, sourceLabel: 'Virginia Lottery (official)' },
+];
+
+function renderPick3Ball(digit) {
+  return `<div class="ball">${digit}</div>`;
+}
+
+function renderLatestDraws(draws, hasFireball) {
+  const byTime = {};
+  [...draws].reverse().forEach(d => {
+    if (!byTime[d.draw_time]) byTime[d.draw_time] = d;
+  });
+
+  const midday = byTime.midday;
+  const evening = byTime.evening;
+
+  const middayEl = document.getElementById('pick3-midday-balls');
+  const eveningEl = document.getElementById('pick3-evening-balls');
+
+  if (midday) {
+    middayEl.innerHTML = midday.digits.map(renderPick3Ball).join('') +
+      (hasFireball && midday.fireball != null ? `<div class="ball special">${midday.fireball}</div>` : '');
+    document.getElementById('pick3-midday-date').textContent = midday.draw_date;
+  } else {
+    middayEl.innerHTML = '<span class="fine-print">Not drawn in this state.</span>';
+  }
+
+  if (evening) {
+    eveningEl.innerHTML = evening.digits.map(renderPick3Ball).join('') +
+      (hasFireball && evening.fireball != null ? `<div class="ball special">${evening.fireball}</div>` : '');
+    document.getElementById('pick3-evening-date').textContent = evening.draw_date;
+  } else {
+    eveningEl.innerHTML = '<span class="fine-print">Not drawn in this state.</span>';
+  }
+}
+
+function initPick3Checker(draws) {
+  const row = document.getElementById('pick3-checker-row');
+  row.innerHTML = [0, 1, 2].map(() =>
+    `<input type="text" inputmode="numeric" maxlength="1" class="checker-ball" />`
+  ).join('');
+
+  const inputs = [...row.querySelectorAll('.checker-ball')];
+  inputs.forEach((inp, i) => {
+    inp.addEventListener('input', () => {
+      inp.value = inp.value.replace(/\D/g, '').slice(0, 1);
+      if (inp.value && inputs[i + 1]) inputs[i + 1].focus();
+    });
+  });
+
+  document.getElementById('pick3-checker-btn').addEventListener('click', () => {
+    const resultEl = document.getElementById('pick3-checker-result');
+    const digits = inputs.map(i => i.value);
+    if (digits.some(d => d === '')) {
+      resultEl.innerHTML = '<span class="fine-print">Enter all 3 digits first.</span>';
+      return;
+    }
+    const guess = digits.map(Number);
+    const latest = [...draws].reverse().find(d => d.draw_time === 'evening') || draws[draws.length - 1];
+    if (!latest) {
+      resultEl.innerHTML = '<span class="fine-print">No draw data loaded yet.</span>';
+      return;
+    }
+    const straight = guess.every((d, i) => d === latest.digits[i]);
+    const box = [...guess].sort().join('') === [...latest.digits].sort().join('');
+    let msg;
+    if (straight) msg = `<strong>Straight match!</strong> Matches the ${latest.draw_time} draw on ${latest.draw_date}.`;
+    else if (box) msg = `<strong>Box match.</strong> Same digits, different order — ${latest.draw_time} draw on ${latest.draw_date}.`;
+    else msg = `No match against the latest ${latest.draw_time} draw (${latest.digits.join('-')}) on ${latest.draw_date}.`;
+    resultEl.innerHTML = msg;
+  });
+}
+
+let pick3CurrentDraws = [];
+
+async function initPage() {
+  const stateSelect = document.getElementById('pick3-state-select');
+  const initialState = PICK3_STATES.find(s => s.id === stateSelect.value) || PICK3_STATES[0];
+
+  async function loadForState(stateConf) {
+    try {
+      const res = await fetch(stateConf.historyPath);
+      if (!res.ok) throw new Error('no data yet for ' + stateConf.id);
+      const history = await res.json();
+      pick3CurrentDraws = history.draws;
+      renderLatestDraws(pick3CurrentDraws, stateConf.hasFireball);
+      initPick3Checker(pick3CurrentDraws);
+      document.getElementById('pick3-source-note').textContent = 'Data source: ' + stateConf.sourceLabel;
+    } catch (err) {
+      console.error(err);
+      document.getElementById('pick3-midday-balls').innerHTML = '<span class="fine-print">Results not available for this state yet.</span>';
+      document.getElementById('pick3-evening-balls').innerHTML = '';
+    }
+  }
+
+  await loadForState(initialState);
+
+  stateSelect.addEventListener('change', () => {
+    const conf = PICK3_STATES.find(s => s.id === stateSelect.value);
+    loadForState(conf);
+  });
+}
+
+initPage().catch(err => console.error(err));
+
+initPick3Stats({
+  hotcold: 'hotcold-section',
+  heatmap: 'heatmap-section',
+  pairs: 'pairs-section',
+  explorer: 'explorer-section',
+  lookup: 'lookup-section',
+}, PICK3_STATES, 'sc').catch(err => {
+  console.error(err);
+  document.getElementById('hotcold-section').textContent = 'Could not load historical stats.';
+});
+</script>
+</body>
+</html>
