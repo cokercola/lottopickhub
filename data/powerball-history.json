@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-09T06:04:42.183210Z",
+  "updated_at": "2026-08-11T06:10:44.069737Z",
   "since": "2015-10-07",
   "note": "Only includes draws since the 2015-10-07 matrix change (5/69 + 1/26). Earlier draws used a different number range and are excluded to keep frequency stats valid.",
   "draws": [
@@ -15237,6 +15237,17 @@
         61
       ],
       "powerball": 25
+    },
+    {
+      "draw_date": "2026-08-08",
+      "white_balls": [
+        5,
+        9,
+        35,
+        54,
+        63
+      ],
+      "powerball": 7
     }
   ]
 }
