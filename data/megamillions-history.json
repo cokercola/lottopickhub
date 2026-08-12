@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-08T06:06:07.444292Z",
+  "updated_at": "2026-08-12T05:54:36.528813Z",
   "since": "2025-04-08",
   "note": "Only includes draws since the 2025-04-08 matrix change (5/70 + 1/24 Mega Ball). Earlier draws used a different Mega Ball range and are excluded to keep frequency stats valid. Much shorter history than Powerball's, since this matrix is far more recent.",
   "draws": [
@@ -1531,6 +1531,17 @@
         65
       ],
       "powerball": 21
+    },
+    {
+      "draw_date": "2026-08-07",
+      "white_balls": [
+        17,
+        20,
+        32,
+        54,
+        57
+      ],
+      "powerball": 23
     }
   ]
 }
