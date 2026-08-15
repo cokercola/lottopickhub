@@ -84,55 +84,32 @@ let scratchCtx = null;
 let scratchDrawing = false;
 let scratchRevealed = false;
 
-// Synthesized, not a loaded audio file - a short burst of filtered
-// noise per scratch tick sounds close enough to a real scratch-off
-// and avoids hosting/licensing an actual sound asset for what's a
-// small distraction feature. Muted by default the first time, since
-// autoplaying sound before any interaction is bad practice - it only
-// ever plays after a real pointerdown, and the mute state is
-// remembered across visits.
-let scratchAudioCtx = null;
-let scratchNoiseBuffer = null;
+// Real recorded/generated clip, played as a loop for the duration of
+// each scratch motion rather than retriggered per tick - a loop
+// tracks a continuous dragging motion much more naturally than
+// restarting a clip every few milliseconds. Muted by default the
+// first time, since autoplaying sound before any interaction is bad
+// practice - it only ever plays after a real pointerdown, and the
+// mute state is remembered across visits.
+let scratchAudio = null;
 let scratchMuted = localStorage.getItem('scratchMuted') === 'true';
-let lastScratchSoundTime = 0;
 
 function ensureAudio() {
-  if (scratchAudioCtx) return;
-  const AudioCtx = window.AudioContext || window.webkitAudioContext;
-  if (!AudioCtx) return;
-  scratchAudioCtx = new AudioCtx();
-  const bufferSize = scratchAudioCtx.sampleRate * 0.3;
-  scratchNoiseBuffer = scratchAudioCtx.createBuffer(1, bufferSize, scratchAudioCtx.sampleRate);
-  const data = scratchNoiseBuffer.getChannelData(0);
-  for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+  if (scratchAudio) return;
+  scratchAudio = new Audio('/assets/scratch-sound.ogg');
+  scratchAudio.loop = true;
+  scratchAudio.volume = 0.5;
 }
 
-function playScratchSound() {
-  if (scratchMuted || !scratchAudioCtx) return;
-  const now = scratchAudioCtx.currentTime;
-  if (now - lastScratchSoundTime < 0.05) return;
-  lastScratchSoundTime = now;
+function startScratchSound() {
+  if (scratchMuted || !scratchAudio) return;
+  scratchAudio.currentTime = 0;
+  scratchAudio.play().catch(() => {});
+}
 
-  const source = scratchAudioCtx.createBufferSource();
-  source.buffer = scratchNoiseBuffer;
-
-  // highpass, not bandpass - bandpass resonates around a fixed
-  // frequency, which is exactly what made repeated bursts sound like
-  // a ringing coil rather than grit. highpass just removes low rumble
-  // without that resonant "ping" character.
-  const filter = scratchAudioCtx.createBiquadFilter();
-  filter.type = 'highpass';
-  filter.frequency.value = 1000 + Math.random() * 500; // 1200-2000Hz, randomized per tick so it doesn't sound like one fixed tone repeating
-  filter.Q.value = 0.4;
-
-  const gain = scratchAudioCtx.createGain();
-  const peakVolume = 0.07 + Math.random() * 0.04; // slight per-tick variation for texture
-  gain.gain.value = peakVolume;
-  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
-
-  source.connect(filter).connect(gain).connect(scratchAudioCtx.destination);
-  source.start(now);
-  source.stop(now + 0.06);
+function stopScratchSound() {
+  if (!scratchAudio) return;
+  scratchAudio.pause();
 }
 
 function randomPrize() {
@@ -218,16 +195,18 @@ function initScratchCard() {
     scratchDrawing = true;
     const p = pointerPos(canvas, e);
     scratchAt(canvas, scratchCtx, p.x, p.y);
-    playScratchSound();
+    startScratchSound();
   });
   canvas.addEventListener('pointermove', e => {
     if (!scratchDrawing) return;
     const p = pointerPos(canvas, e);
     scratchAt(canvas, scratchCtx, p.x, p.y);
-    playScratchSound();
     checkAutoReveal(canvas, scratchCtx);
   });
-  window.addEventListener('pointerup', () => { scratchDrawing = false; });
+  window.addEventListener('pointerup', () => {
+    scratchDrawing = false;
+    stopScratchSound();
+  });
 
   document.getElementById('scratch-reveal-btn').addEventListener('click', revealCard);
   document.getElementById('scratch-new-btn').addEventListener('click', setNewCard);
