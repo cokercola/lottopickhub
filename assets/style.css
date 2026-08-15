@@ -885,3 +885,76 @@ a { color: inherit; }
   font-weight: 700;
   color: var(--gold);
 }
+.scratch-card-wrap {
+  position: relative;
+  width: 320px;
+  height: 200px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--panel-border);
+  touch-action: none;
+}
+.scratch-prize {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--white);
+}
+.scratch-prize-emoji {
+  font-size: 40px;
+}
+.scratch-prize-text {
+  font-size: 14px;
+  color: var(--navy);
+  font-weight: 600;
+  text-align: center;
+  padding: 0 20px;
+}
+.scratch-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.take-a-break-card {
+  background: var(--white);
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--navy);
+}
+.take-a-break-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--red);
+  color: #FAECE7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.take-a-break-card .title {
+  font-size: 14px;
+  margin: 0;
+}
+.take-a-break-card .sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0;
+}
+.take-a-break-arrow {
+  margin-left: auto;
+  color: var(--text-muted);
+}
