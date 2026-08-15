@@ -82,6 +82,17 @@
   <div class="section-divider"></div>
 
   <div class="section">
+    <p class="section-label">Quick pick generator</p>
+    <div class="ball-row" id="pick4-quick-pick-balls" style="margin-bottom:12px;"></div>
+    <div class="quick-pick-actions">
+      <button class="btn-gold" id="pick4-quick-pick-btn">Generate</button>
+      <span class="fine-print">Fully random - not optimized picks</span>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <div class="section">
     <p class="section-label">Did I win? Ticket checker</p>
     <div class="checker-ball-row" id="pick4-checker-row"></div>
     <div class="quick-pick-actions">
@@ -230,6 +241,7 @@ async function initPage() {
 }
 
 initPage().catch(err => console.error(err));
+initDigitQuickPick('pick4-quick-pick-balls', 'pick4-quick-pick-btn', 4);
 
 initPick4Stats({
   hotcold: 'hotcold-section',
