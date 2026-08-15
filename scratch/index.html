@@ -121,11 +121,11 @@ function playScratchSound() {
   // without that resonant "ping" character.
   const filter = scratchAudioCtx.createBiquadFilter();
   filter.type = 'highpass';
-  filter.frequency.value = 1200 + Math.random() * 800; // 1200-2000Hz, randomized per tick so it doesn't sound like one fixed tone repeating
+  filter.frequency.value = 1000 + Math.random() * 500; // 1200-2000Hz, randomized per tick so it doesn't sound like one fixed tone repeating
   filter.Q.value = 0.4;
 
   const gain = scratchAudioCtx.createGain();
-  const peakVolume = 0.08 + Math.random() * 0.05; // slight per-tick variation for texture
+  const peakVolume = 0.07 + Math.random() * 0.04; // slight per-tick variation for texture
   gain.gain.value = peakVolume;
   gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
 
