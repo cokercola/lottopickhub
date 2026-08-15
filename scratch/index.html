@@ -83,6 +83,50 @@ let scratchCtx = null;
 let scratchDrawing = false;
 let scratchRevealed = false;
 
+// Synthesized, not a loaded audio file - a short burst of filtered
+// noise per scratch tick sounds close enough to a real scratch-off
+// and avoids hosting/licensing an actual sound asset for what's a
+// small distraction feature. Muted by default the first time, since
+// autoplaying sound before any interaction is bad practice - it only
+// ever plays after a real pointerdown, and the mute state is
+// remembered across visits.
+let scratchAudioCtx = null;
+let scratchNoiseBuffer = null;
+let scratchMuted = localStorage.getItem('scratchMuted') === 'true';
+let lastScratchSoundTime = 0;
+
+function ensureAudio() {
+  if (scratchAudioCtx) return;
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  if (!AudioCtx) return;
+  scratchAudioCtx = new AudioCtx();
+  const bufferSize = scratchAudioCtx.sampleRate * 0.3;
+  scratchNoiseBuffer = scratchAudioCtx.createBuffer(1, bufferSize, scratchAudioCtx.sampleRate);
+  const data = scratchNoiseBuffer.getChannelData(0);
+  for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+}
+
+function playScratchSound() {
+  if (scratchMuted || !scratchAudioCtx) return;
+  const now = scratchAudioCtx.currentTime;
+  if (now - lastScratchSoundTime < 0.06) return;
+  lastScratchSoundTime = now;
+
+  const source = scratchAudioCtx.createBufferSource();
+  source.buffer = scratchNoiseBuffer;
+  const filter = scratchAudioCtx.createBiquadFilter();
+  filter.type = 'bandpass';
+  filter.frequency.value = 2200;
+  filter.Q.value = 0.7;
+  const gain = scratchAudioCtx.createGain();
+  gain.gain.value = 0.12;
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+
+  source.connect(filter).connect(gain).connect(scratchAudioCtx.destination);
+  source.start(now);
+  source.stop(now + 0.08);
+}
+
 function randomPrize() {
   return SCRATCH_PRIZES[Math.floor(Math.random() * SCRATCH_PRIZES.length)];
 }
@@ -162,20 +206,31 @@ function initScratchCard() {
   const canvas = document.getElementById('scratch-canvas');
 
   canvas.addEventListener('pointerdown', e => {
+    ensureAudio();
     scratchDrawing = true;
     const p = pointerPos(canvas, e);
     scratchAt(canvas, scratchCtx, p.x, p.y);
+    playScratchSound();
   });
   canvas.addEventListener('pointermove', e => {
     if (!scratchDrawing) return;
     const p = pointerPos(canvas, e);
     scratchAt(canvas, scratchCtx, p.x, p.y);
+    playScratchSound();
     checkAutoReveal(canvas, scratchCtx);
   });
   window.addEventListener('pointerup', () => { scratchDrawing = false; });
 
   document.getElementById('scratch-reveal-btn').addEventListener('click', revealCard);
   document.getElementById('scratch-new-btn').addEventListener('click', setNewCard);
+
+  const muteBtn = document.getElementById('scratch-mute-btn');
+  muteBtn.textContent = scratchMuted ? '🔇' : '🔊';
+  muteBtn.addEventListener('click', () => {
+    scratchMuted = !scratchMuted;
+    localStorage.setItem('scratchMuted', String(scratchMuted));
+    muteBtn.textContent = scratchMuted ? '🔇' : '🔊';
+  });
 
   setNewCard();
 }
