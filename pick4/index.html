@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FP60XF0554"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FP60XF0554');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pick 4 Winning Numbers, Ticket Checker &amp; Stats by State | LottoPickHub</title>
+<meta name="description" content="Latest Pick 4 winning numbers by state, a free ticket checker, digit heatmap, front/back pair frequency, and historical draw stats — updated daily.">
+<link rel="canonical" href="https://lottopickhub.com/pick4/">
+<link rel="icon" type="image/png" href="/assets/lottopickhub-icon.png">
+
+<!-- Open Graph / social share preview -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="LottoPickHub">
+<meta property="og:title" content="Pick 4 Winning Numbers, Ticket Checker & Stats by State | LottoPickHub">
+<meta property="og:description" content="Latest Pick 4 winning numbers by state, a free ticket checker, digit heatmap, front/back pair frequency, and historical draw stats — updated daily.">
+<meta property="og:url" content="https://lottopickhub.com/pick4/">
+<meta property="og:image" content="https://lottopickhub.com/assets/og-share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="LottoPickHub — Pick 4 results, ticket checker & historical stats">
+
+<!-- Twitter/X card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pick 4 Winning Numbers, Ticket Checker & Stats by State | LottoPickHub">
+<meta name="twitter:description" content="Latest Pick 4 winning numbers by state, a free ticket checker, digit heatmap, front/back pair frequency, and historical draw stats — updated daily.">
+<meta name="twitter:image" content="https://lottopickhub.com/assets/og-share.png">
+
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<div id="site-header"></div>
+<div class="page-shell">
+<div class="card">
+  <div class="game-pills">
+    <span class="game-pills-label">Multi-state</span>
+    <a href="/powerball/" class="game-pill">Powerball</a>
+    <a href="/megamillions/" class="game-pill">Mega Millions</a>
+    <a href="/pick3/" class="game-pill">Pick 3</a>
+    <a href="/pick4/" class="game-pill active">Pick 4</a>
+  </div>
+  <div class="breadcrumb"><a href="/">Home</a> / <span class="current">Pick 4</span></div>
+
+  <div class="section">
+    <div class="pick3-state-row">
+      <p class="section-label" style="margin:0;">State</p>
+      <select class="explorer-select" id="pick4-state-select">
+        <option value="ny">New York</option>
+        <option value="sc" selected>South Carolina</option>
+        <option value="nc">North Carolina</option>
+        <option value="va">Virginia</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <div class="section">
+    <p class="section-label">Latest draws</p>
+    <div class="pick3-draws-row" id="pick4-draws-row">
+      <div class="pick3-draw-card">
+        <p class="pick3-draw-label">Midday</p>
+        <div class="ball-row" id="pick4-midday-balls"></div>
+        <p class="fine-print" id="pick4-midday-date">—</p>
+      </div>
+      <div class="pick3-draw-card">
+        <p class="pick3-draw-label">Evening</p>
+        <div class="ball-row" id="pick4-evening-balls"></div>
+        <p class="fine-print" id="pick4-evening-date">—</p>
+      </div>
+    </div>
+    <p class="fine-print" style="margin-top:10px;">Some states post results a few hours after the drawing — if today's numbers aren't showing yet, check back later.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <div class="section">
+    <p class="section-label">Did I win? Ticket checker</p>
+    <div class="checker-ball-row" id="pick4-checker-row"></div>
+    <div class="quick-pick-actions">
+      <button class="btn-gold" id="pick4-checker-btn">Check</button>
+      <span class="fine-print">Checked against the latest draws only — straight and box</span>
+    </div>
+    <div class="checker-result" id="pick4-checker-result"></div>
+  </div>
+
+  <div class="section-divider"></div>
+  <div class="section" id="hotcold-section"></div>
+  <div class="section-divider"></div>
+  <div class="section" id="heatmap-section"></div>
+  <div class="section-divider"></div>
+  <div class="section" id="pairs-section"></div>
+  <div class="section-divider"></div>
+  <div class="section" id="explorer-section"></div>
+  <div class="section-divider"></div>
+  <div class="section" id="lookup-section"></div>
+
+  <div class="footer-strip">
+    <span>Historical curiosity and entertainment only — not a prediction tool.</span>
+    <span id="pick4-source-note">Data source: state lottery open data</span>
+  </div>
+</div>
+</div>
+<script src="/assets/site.js"></script>
+<script src="/assets/pick4-stats.js"></script>
+<script src="/assets/donate.js"></script>
+<script src="/assets/header.js"></script>
+<script>
+/*
+  Same shape and same per-state caveats as PICK3_STATES in
+  pick3/index.html - see that file's comment for the full explanation.
+  VA's endpoint was directly confirmed working this session. NC's CSV
+  endpoint exists but its exact column layout is assumed, not
+  confirmed. NY's field names are a best guess pending verification.
+  SC's page URL and fireball class name are assumed by analogy with
+  the Pick 3 page. See each fetch_pick4_results_*.py docstring.
+*/
+const PICK4_STATES = [
+  { id: 'ny', label: 'New York', historyPath: '/data/pick4/ny-history.json', hasFireball: false, sourceLabel: 'NY State Open Data (official)' },
+  { id: 'sc', label: 'South Carolina', historyPath: '/data/pick4/sc-history.json', hasFireball: true, sourceLabel: 'SC Education Lottery (official)' },
+  { id: 'nc', label: 'North Carolina', historyPath: '/data/pick4/nc-history.json', hasFireball: true, sourceLabel: 'NC Education Lottery (official)' },
+  { id: 'va', label: 'Virginia', historyPath: '/data/pick4/va-history.json', hasFireball: true, sourceLabel: 'Virginia Lottery (official)' },
+];
+
+function renderPick4Ball(digit) {
+  return `<div class="ball">${digit}</div>`;
+}
+
+function renderLatestDraws(draws, hasFireball) {
+  const byTime = {};
+  [...draws].reverse().forEach(d => {
+    if (!byTime[d.draw_time]) byTime[d.draw_time] = d;
+  });
+
+  const midday = byTime.midday;
+  const evening = byTime.evening;
+
+  const middayEl = document.getElementById('pick4-midday-balls');
+  const eveningEl = document.getElementById('pick4-evening-balls');
+
+  if (midday) {
+    middayEl.innerHTML = midday.digits.map(renderPick4Ball).join('') +
+      (hasFireball && midday.fireball != null ? `<div class="ball special">${midday.fireball}</div>` : '');
+    document.getElementById('pick4-midday-date').textContent = midday.draw_date;
+  } else {
+    middayEl.innerHTML = '<span class="fine-print">Not drawn in this state.</span>';
+  }
+
+  if (evening) {
+    eveningEl.innerHTML = evening.digits.map(renderPick4Ball).join('') +
+      (hasFireball && evening.fireball != null ? `<div class="ball special">${evening.fireball}</div>` : '');
+    document.getElementById('pick4-evening-date').textContent = evening.draw_date;
+  } else {
+    eveningEl.innerHTML = '<span class="fine-print">Not drawn in this state.</span>';
+  }
+}
+
+function initPick4Checker(draws) {
+  const row = document.getElementById('pick4-checker-row');
+  row.innerHTML = [0, 1, 2, 3].map(() =>
+    `<input type="text" inputmode="numeric" maxlength="1" class="checker-ball" />`
+  ).join('');
+
+  const inputs = [...row.querySelectorAll('.checker-ball')];
+  inputs.forEach((inp, i) => {
+    inp.addEventListener('input', () => {
+      inp.value = inp.value.replace(/\D/g, '').slice(0, 1);
+      if (inp.value && inputs[i + 1]) inputs[i + 1].focus();
+    });
+  });
+
+  document.getElementById('pick4-checker-btn').addEventListener('click', () => {
+    const resultEl = document.getElementById('pick4-checker-result');
+    const digits = inputs.map(i => i.value);
+    if (digits.some(d => d === '')) {
+      resultEl.innerHTML = '<span class="fine-print">Enter all 4 digits first.</span>';
+      return;
+    }
+    const guess = digits.map(Number);
+    const latest = [...draws].reverse().find(d => d.draw_time === 'evening') || draws[draws.length - 1];
+    if (!latest) {
+      resultEl.innerHTML = '<span class="fine-print">No draw data loaded yet.</span>';
+      return;
+    }
+    const straight = guess.every((d, i) => d === latest.digits[i]);
+    const box = [...guess].sort().join('') === [...latest.digits].sort().join('');
+    let msg;
+    if (straight) msg = `<strong>Straight match!</strong> Matches the ${latest.draw_time} draw on ${latest.draw_date}.`;
+    else if (box) msg = `<strong>Box match.</strong> Same digits, different order — ${latest.draw_time} draw on ${latest.draw_date}.`;
+    else msg = `No match against the latest ${latest.draw_time} draw (${latest.digits.join('-')}) on ${latest.draw_date}.`;
+    resultEl.innerHTML = msg;
+  });
+}
+
+let pick4CurrentDraws = [];
+
+async function initPage() {
+  const stateSelect = document.getElementById('pick4-state-select');
+  const initialState = PICK4_STATES.find(s => s.id === stateSelect.value) || PICK4_STATES[0];
+
+  async function loadForState(stateConf) {
+    try {
+      const res = await fetch(stateConf.historyPath);
+      if (!res.ok) throw new Error('no data yet for ' + stateConf.id);
+      const history = await res.json();
+      pick4CurrentDraws = history.draws;
+      renderLatestDraws(pick4CurrentDraws, stateConf.hasFireball);
+      initPick4Checker(pick4CurrentDraws);
+      document.getElementById('pick4-source-note').textContent = 'Data source: ' + stateConf.sourceLabel;
+    } catch (err) {
+      console.error(err);
+      document.getElementById('pick4-midday-balls').innerHTML = '<span class="fine-print">Results not available for this state yet.</span>';
+      document.getElementById('pick4-evening-balls').innerHTML = '';
+    }
+  }
+
+  await loadForState(initialState);
+
+  stateSelect.addEventListener('change', () => {
+    const conf = PICK4_STATES.find(s => s.id === stateSelect.value);
+    loadForState(conf);
+  });
+}
+
+initPage().catch(err => console.error(err));
+
+initPick4Stats({
+  hotcold: 'hotcold-section',
+  heatmap: 'heatmap-section',
+  pairs: 'pairs-section',
+  explorer: 'explorer-section',
+  lookup: 'lookup-section',
+}, PICK4_STATES, 'sc').catch(err => {
+  console.error(err);
+  document.getElementById('hotcold-section').textContent = 'Could not load historical stats.';
+});
+</script>
+</body>
+</html>
