@@ -58,7 +58,7 @@
 <script>
 const SCRATCH_PRIZES = [
   { emoji: '🍀', text: 'Lucky vibes only' },
-  { emoji: '🎉', text: 'Bragging rights, redeemable nowhere' },
+  { emoji: '🎉', text: 'Bragging rights, redeemable in your heart' },
   { emoji: '☕', text: 'A free imaginary coffee' },
   { emoji: '🌟', text: 'Five stars, no notes' },
   { emoji: '🐸', text: 'A genuinely excellent frog' },
@@ -69,6 +69,14 @@ const SCRATCH_PRIZES = [
   { emoji: '🌈', text: 'Somewhere over it, apparently' },
   { emoji: '🎲', text: 'Try again, no charge' },
   { emoji: '🦆', text: 'A duck. No further explanation' },
+  { emoji: '🗽', text: 'A trip to New York, imaginary' },
+  { emoji: '🗼', text: 'Tokyo, sort of, not really' },
+  { emoji: '🎡', text: 'One ride, no line, not real' },
+  { emoji: '🏔️', text: 'A mountain. You climbed it mentally' },
+  { emoji: '🌉', text: 'A bridge to nowhere in particular' },
+  { emoji: '🏛️', text: 'Ancient wisdom, zero value' },
+  { emoji: '🕌', text: 'A very nice building, far away' },
+  { emoji: '🏰', text: 'A castle. You are now royalty, briefly' },
 ];
 
 let scratchCtx = null;
@@ -100,6 +108,11 @@ function setNewCard() {
   document.getElementById('scratch-prize-text').textContent = prize.text;
 
   const canvas = document.getElementById('scratch-canvas');
+  // Kill any in-progress fade left over from revealCard() before
+  // resetting opacity - otherwise a "New card" click during the fade
+  // makes the canvas fade back IN instead of snapping solid, briefly
+  // showing the new prize through the still-transparent canvas.
+  canvas.style.transition = 'none';
   canvas.style.opacity = '1';
   canvas.style.pointerEvents = 'auto';
   scratchCtx = canvas.getContext('2d');
