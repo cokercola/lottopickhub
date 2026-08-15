@@ -109,22 +109,29 @@ function ensureAudio() {
 function playScratchSound() {
   if (scratchMuted || !scratchAudioCtx) return;
   const now = scratchAudioCtx.currentTime;
-  if (now - lastScratchSoundTime < 0.06) return;
+  if (now - lastScratchSoundTime < 0.05) return;
   lastScratchSoundTime = now;
 
   const source = scratchAudioCtx.createBufferSource();
   source.buffer = scratchNoiseBuffer;
+
+  // highpass, not bandpass - bandpass resonates around a fixed
+  // frequency, which is exactly what made repeated bursts sound like
+  // a ringing coil rather than grit. highpass just removes low rumble
+  // without that resonant "ping" character.
   const filter = scratchAudioCtx.createBiquadFilter();
-  filter.type = 'bandpass';
-  filter.frequency.value = 2200;
-  filter.Q.value = 0.7;
+  filter.type = 'highpass';
+  filter.frequency.value = 1200 + Math.random() * 800; // 1200-2000Hz, randomized per tick so it doesn't sound like one fixed tone repeating
+  filter.Q.value = 0.4;
+
   const gain = scratchAudioCtx.createGain();
-  gain.gain.value = 0.12;
-  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+  const peakVolume = 0.08 + Math.random() * 0.05; // slight per-tick variation for texture
+  gain.gain.value = peakVolume;
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
 
   source.connect(filter).connect(gain).connect(scratchAudioCtx.destination);
   source.start(now);
-  source.stop(now + 0.08);
+  source.stop(now + 0.06);
 }
 
 function randomPrize() {
