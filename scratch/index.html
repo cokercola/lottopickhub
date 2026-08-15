@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FP60XF0554"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FP60XF0554');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scratch Off | LottoPickHub</title>
+<meta name="description" content="A free digital scratch-off, just for fun. No real prizes, no purchase, nothing to win — just a quick distraction.">
+<link rel="canonical" href="https://lottopickhub.com/scratch/">
+<link rel="icon" type="image/png" href="/assets/lottopickhub-icon.png">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<div id="site-header"></div>
+<div class="page-shell">
+<div class="card">
+
+  <div class="breadcrumb"><a href="/">Home</a> / <span class="current">Scratch off</span></div>
+
+  <div class="hero">
+    <h1>Digital scratch off</h1>
+    <p>Scratch the card below. Just for fun — no real prizes, nothing to buy, nothing to win.</p>
+  </div>
+
+  <div class="section" style="display:flex; justify-content:center;">
+    <div class="scratch-card-wrap">
+      <div class="scratch-prize" id="scratch-prize">
+        <span class="scratch-prize-emoji" id="scratch-prize-emoji">🍀</span>
+        <span class="scratch-prize-text" id="scratch-prize-text">Lucky vibes only</span>
+      </div>
+      <canvas class="scratch-canvas" id="scratch-canvas" width="320" height="200"></canvas>
+    </div>
+  </div>
+
+  <div class="section" style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+    <button class="btn-gold" id="scratch-reveal-btn">Reveal it</button>
+    <button class="btn-gold" id="scratch-new-btn" style="background:var(--white); border:1px solid var(--panel-border); color:var(--navy);">New card</button>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <div class="section">
+    <p class="fine-print">This is a just-for-fun distraction, not a lottery product. It doesn't cost anything, pays out nothing, and has no connection to any real drawing or prize.</p>
+  </div>
+
+</div>
+</div>
+<script src="/assets/site.js"></script>
+<script src="/assets/donate.js"></script>
+<script src="/assets/header.js"></script>
+<script>
+const SCRATCH_PRIZES = [
+  { emoji: '🍀', text: 'Lucky vibes only' },
+  { emoji: '🎉', text: 'Bragging rights, redeemable nowhere' },
+  { emoji: '☕', text: 'A free imaginary coffee' },
+  { emoji: '🌟', text: 'Five stars, no notes' },
+  { emoji: '🐸', text: 'A genuinely excellent frog' },
+  { emoji: '🎈', text: 'One (1) good vibe' },
+  { emoji: '🍩', text: 'A donut, but not really' },
+  { emoji: '🏆', text: 'Champion of scratching things' },
+  { emoji: '🧦', text: 'A single, mismatched sock' },
+  { emoji: '🌈', text: 'Somewhere over it, apparently' },
+  { emoji: '🎲', text: 'Try again, no charge' },
+  { emoji: '🦆', text: 'A duck. No further explanation' },
+];
+
+let scratchCtx = null;
+let scratchDrawing = false;
+let scratchRevealed = false;
+
+function randomPrize() {
+  return SCRATCH_PRIZES[Math.floor(Math.random() * SCRATCH_PRIZES.length)];
+}
+
+function paintFoil(canvas, ctx) {
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.fillStyle = '#C7CEDD';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#B4BCCF';
+  for (let i = 0; i < canvas.width; i += 8) {
+    ctx.fillRect(i, 0, 2, canvas.height);
+  }
+  ctx.fillStyle = '#0F1E3D';
+  ctx.font = '600 15px -apple-system, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Scratch here', canvas.width / 2, canvas.height / 2);
+}
+
+function setNewCard() {
+  scratchRevealed = false;
+  const prize = randomPrize();
+  document.getElementById('scratch-prize-emoji').textContent = prize.emoji;
+  document.getElementById('scratch-prize-text').textContent = prize.text;
+
+  const canvas = document.getElementById('scratch-canvas');
+  canvas.style.opacity = '1';
+  canvas.style.pointerEvents = 'auto';
+  scratchCtx = canvas.getContext('2d');
+  paintFoil(canvas, scratchCtx);
+}
+
+function scratchAt(canvas, ctx, x, y) {
+  ctx.globalCompositeOperation = 'destination-out';
+  ctx.beginPath();
+  ctx.arc(x, y, 18, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function scratchedPercent(canvas, ctx) {
+  const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+  let cleared = 0;
+  for (let i = 3; i < data.length; i += 4 * 20) {
+    if (data[i] === 0) cleared++;
+  }
+  return cleared / (data.length / (4 * 20));
+}
+
+function checkAutoReveal(canvas, ctx) {
+  if (scratchRevealed) return;
+  if (scratchedPercent(canvas, ctx) > 0.55) {
+    revealCard();
+  }
+}
+
+function revealCard() {
+  if (scratchRevealed) return;
+  scratchRevealed = true;
+  const canvas = document.getElementById('scratch-canvas');
+  canvas.style.transition = 'opacity 0.3s';
+  canvas.style.opacity = '0';
+  canvas.style.pointerEvents = 'none';
+}
+
+function pointerPos(canvas, evt) {
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+  return { x: (evt.clientX - rect.left) * scaleX, y: (evt.clientY - rect.top) * scaleY };
+}
+
+function initScratchCard() {
+  const canvas = document.getElementById('scratch-canvas');
+
+  canvas.addEventListener('pointerdown', e => {
+    scratchDrawing = true;
+    const p = pointerPos(canvas, e);
+    scratchAt(canvas, scratchCtx, p.x, p.y);
+  });
+  canvas.addEventListener('pointermove', e => {
+    if (!scratchDrawing) return;
+    const p = pointerPos(canvas, e);
+    scratchAt(canvas, scratchCtx, p.x, p.y);
+    checkAutoReveal(canvas, scratchCtx);
+  });
+  window.addEventListener('pointerup', () => { scratchDrawing = false; });
+
+  document.getElementById('scratch-reveal-btn').addEventListener('click', revealCard);
+  document.getElementById('scratch-new-btn').addEventListener('click', setNewCard);
+
+  setNewCard();
+}
+
+initScratchCard();
+</script>
+</body>
+</html>
