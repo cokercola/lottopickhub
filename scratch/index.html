@@ -42,6 +42,7 @@
   <div class="section" style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
     <button class="btn-gold" id="scratch-reveal-btn">Reveal it</button>
     <button class="btn-gold" id="scratch-new-btn" style="background:var(--white); border:1px solid var(--panel-border); color:var(--navy);">New card</button>
+    <button class="btn-gold" id="scratch-mute-btn" style="background:var(--white); border:1px solid var(--panel-border); color:var(--navy);" aria-label="Mute scratch sound">🔊</button>
   </div>
 
   <div class="section-divider"></div>
@@ -232,12 +233,14 @@ function initScratchCard() {
   document.getElementById('scratch-new-btn').addEventListener('click', setNewCard);
 
   const muteBtn = document.getElementById('scratch-mute-btn');
-  muteBtn.textContent = scratchMuted ? '🔇' : '🔊';
-  muteBtn.addEventListener('click', () => {
-    scratchMuted = !scratchMuted;
-    localStorage.setItem('scratchMuted', String(scratchMuted));
+  if (muteBtn) {
     muteBtn.textContent = scratchMuted ? '🔇' : '🔊';
-  });
+    muteBtn.addEventListener('click', () => {
+      scratchMuted = !scratchMuted;
+      localStorage.setItem('scratchMuted', String(scratchMuted));
+      muteBtn.textContent = scratchMuted ? '🔇' : '🔊';
+    });
+  }
 
   setNewCard();
 }
