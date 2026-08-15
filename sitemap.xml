@@ -17,6 +17,11 @@
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
+  <url>
+    <loc>https://lottopickhub.com/scratch/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
 
   <!-- Add one entry per additional lottery page as they're built:
   <url>
