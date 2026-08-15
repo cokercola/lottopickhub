@@ -29,6 +29,33 @@ function renderLatestDraw(containerId, dateId, data) {
 function randomInt(max) {
   return Math.floor(Math.random() * max) + 1;
 }
+function randomDigit() {
+  return Math.floor(Math.random() * 10);
+}
+
+// Shared by Pick 3 and Pick 4 - unlike generateQuickPick() above,
+// digits can repeat within a single pick (e.g. 0,0,5,2 is valid), so
+// this doesn't need generateQuickPick's Set-based duplicate avoidance.
+// No Fireball digit included, matching the ticket checker's scope on
+// both pages, which also only asks for the base digits.
+function generateDigitQuickPick(digitCount) {
+  const digits = [];
+  for (let i = 0; i < digitCount; i++) digits.push(randomDigit());
+  return digits;
+}
+
+function initDigitQuickPick(containerId, btnId, digitCount) {
+  const el = document.getElementById(containerId);
+  const btn = document.getElementById(btnId);
+  if (!el || !btn) return;
+
+  el.innerHTML = Array(digitCount).fill(0).map(() => ballHTML('-', { placeholder: true })).join('');
+
+  btn.addEventListener('click', () => {
+    const digits = generateDigitQuickPick(digitCount);
+    el.innerHTML = digits.map(n => ballHTML(n)).join('');
+  });
+}
 
 function generateQuickPick(game) {
   const whites = new Set();
