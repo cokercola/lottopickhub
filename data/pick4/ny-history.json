@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-17T05:09:19.616000Z",
+  "updated_at": "2026-08-17T19:52:38.301698Z",
   "state": "ny",
   "note": "Last 2 years of NY Win 4 draws. NY has no Fireball-equivalent bonus digit.",
   "draws": [
@@ -16038,6 +16038,28 @@
         9,
         7,
         4
+      ],
+      "fireball": null
+    },
+    {
+      "draw_date": "2026-08-16",
+      "draw_time": "evening",
+      "digits": [
+        8,
+        0,
+        3,
+        4
+      ],
+      "fireball": null
+    },
+    {
+      "draw_date": "2026-08-16",
+      "draw_time": "midday",
+      "digits": [
+        1,
+        8,
+        0,
+        7
       ],
       "fireball": null
     }
