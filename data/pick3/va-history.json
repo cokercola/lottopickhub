@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-16T19:43:38.964453Z",
+  "updated_at": "2026-08-17T05:03:47.050359Z",
   "state": "va",
   "note": "VA Pick 3, full history as returned by the Virginia Lottery API. Fireball included for both draws.",
   "draws": [
@@ -38622,6 +38622,26 @@
         1
       ],
       "fireball": 2
+    },
+    {
+      "draw_date": "2026-08-16",
+      "draw_time": "evening",
+      "digits": [
+        2,
+        4,
+        8
+      ],
+      "fireball": 0
+    },
+    {
+      "draw_date": "2026-08-16",
+      "draw_time": "midday",
+      "digits": [
+        3,
+        0,
+        8
+      ],
+      "fireball": 4
     }
   ]
 }
