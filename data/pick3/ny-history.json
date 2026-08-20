@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-20T05:03:59.616646Z",
+  "updated_at": "2026-08-20T19:55:55.389500Z",
   "state": "ny",
   "note": "Last 2 years of NY Numbers (Pick 3) draws. NY has no Fireball-equivalent bonus digit.",
   "draws": [
@@ -14580,6 +14580,26 @@
         5,
         8,
         2
+      ],
+      "fireball": null
+    },
+    {
+      "draw_date": "2026-08-19",
+      "draw_time": "evening",
+      "digits": [
+        2,
+        9,
+        0
+      ],
+      "fireball": null
+    },
+    {
+      "draw_date": "2026-08-19",
+      "draw_time": "midday",
+      "digits": [
+        4,
+        0,
+        3
       ],
       "fireball": null
     }
