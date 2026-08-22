@@ -23,6 +23,18 @@
     <priority>0.4</priority>
   </url>
 
+  <url>
+    <loc>https://lottopickhub.com/sequence/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+  <url>
+    <loc>https://lottopickhub.com/trivia/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
   <!-- Add one entry per additional lottery page as they're built:
   <url>
     <loc>https://lottopickhub.com/mega-millions/</loc>
