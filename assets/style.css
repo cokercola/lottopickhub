@@ -1045,3 +1045,51 @@ a { color: inherit; }
   color: var(--navy);
   margin: 4px 0 8px;
 }
+/* --- Take a break: grid layout, per-game accent, SVG icons --- */
+.take-a-break-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+.take-a-break-card {
+  border-radius: 12px;
+  padding: 16px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.take-a-break-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(15, 30, 61, 0.10);
+}
+.take-a-break-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.take-a-break-icon svg {
+  width: 22px;
+  height: 22px;
+}
+.take-a-break-body {
+  display: flex;
+  flex-direction: column;
+}
+.take-a-break-card .sub {
+  margin-top: 2px;
+}
+.take-a-break-arrow {
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+.take-a-break-card:hover .take-a-break-arrow {
+  transform: translateX(3px);
+  color: var(--navy);
+}
+
+.tab-gold .take-a-break-icon { background: #FFF3D0; color: var(--gold); }
+.tab-gold:hover { border-color: var(--gold); }
+
+.tab-navy .take-a-break-icon { background: #E4E9F5; color: var(--navy); }
+.tab-navy:hover { border-color: var(--navy); }
+
+.tab-red .take-a-break-icon { background: #FBE7E7; color: var(--red); }
+.tab-red:hover { border-color: var(--red); }
