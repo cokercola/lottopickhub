@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FP60XF0554"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FP60XF0554');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Lottery Trivia | LottoPickHub</title>
+<meta name="description" content="A free 5-question daily trivia quiz about lottery history and facts. New questions every day. Just for fun, nothing to buy or win.">
+<link rel="canonical" href="https://lottopickhub.com/trivia/">
+<link rel="icon" type="image/png" href="/assets/lottopickhub-icon.png">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<div id="site-header"></div>
+<div class="page-shell">
+<div class="card">
+
+  <div class="breadcrumb"><a href="/">Home</a> / <span class="current">Daily trivia</span></div>
+
+  <div class="hero">
+    <h1>Daily lottery trivia</h1>
+    <p>Five questions, a new set each day. Just for fun — no real prizes, nothing to buy, nothing to win.</p>
+  </div>
+
+  <div class="section" id="trivia-loading">
+    <p class="fine-print">Loading today's questions...</p>
+  </div>
+
+  <div class="section" id="trivia-game" style="display:none;">
+    <p class="section-sub" id="trivia-progress">Question 1 of 5</p>
+    <p class="trivia-question" id="trivia-question"></p>
+    <div id="trivia-options"></div>
+    <div class="trivia-explain" id="trivia-explain" style="display:none;"></div>
+    <div class="quick-pick-actions" style="margin-top:14px;">
+      <button class="btn-gold" id="trivia-next-btn" style="display:none;">Next question</button>
+    </div>
+  </div>
+
+  <div class="section" id="trivia-done" style="display:none; text-align:center;">
+    <p class="section-label" style="margin-bottom:4px;">Today's result</p>
+    <p class="trivia-score" id="trivia-score">0 / 5</p>
+    <p class="fine-print">Come back tomorrow for a new set of questions.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <div class="section">
+    <p class="fine-print">This is a just-for-fun distraction, not a lottery product. It doesn't cost anything, pays out nothing, and has no connection to any real drawing or prize.</p>
+  </div>
+
+</div>
+</div>
+<script src="/assets/site.js"></script>
+<script src="/assets/donate.js"></script>
+<script src="/assets/header.js"></script>
+<script>
+(function () {
+  const QUESTIONS_PER_DAY = 5;
+
+  // Deterministic PRNG (mulberry32) seeded by day-of-year so everyone
+  // sees the same 5 questions on a given day, and the set rotates daily
+  // - no backend needed, works fine on static GitHub Pages hosting.
+  function mulberry32(seed) {
+    return function () {
+      seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+      let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function dayOfYearSeed() {
+    const now = new Date();
+    const start = new Date(now.getFullYear(), 0, 0);
+    const diff = now - start;
+    const dayOfYear = Math.floor(diff / 86400000);
+    return now.getFullYear() * 1000 + dayOfYear;
+  }
+
+  function pickDailyQuestions(pool) {
+    const rand = mulberry32(dayOfYearSeed());
+    const shuffled = [...pool];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(rand() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled.slice(0, Math.min(QUESTIONS_PER_DAY, shuffled.length));
+  }
+
+  let questions = [];
+  let current = 0;
+  let correctCount = 0;
+  let answered = false;
+
+  const loadingEl = document.getElementById('trivia-loading');
+  const gameEl = document.getElementById('trivia-game');
+  const doneEl = document.getElementById('trivia-done');
+  const progressEl = document.getElementById('trivia-progress');
+  const questionEl = document.getElementById('trivia-question');
+  const optionsEl = document.getElementById('trivia-options');
+  const explainEl = document.getElementById('trivia-explain');
+  const nextBtn = document.getElementById('trivia-next-btn');
+  const scoreEl = document.getElementById('trivia-score');
+
+  function renderQuestion() {
+    answered = false;
+    const q = questions[current];
+    progressEl.textContent = `Question ${current + 1} of ${questions.length}`;
+    questionEl.textContent = q.q;
+    explainEl.style.display = 'none';
+    nextBtn.style.display = 'none';
+    optionsEl.innerHTML = '';
+
+    q.options.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'trivia-option';
+      btn.type = 'button';
+      btn.textContent = opt;
+      btn.addEventListener('click', () => selectOption(i, btn));
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function selectOption(i, btn) {
+    if (answered) return;
+    answered = true;
+    const q = questions[current];
+    const optionButtons = [...optionsEl.querySelectorAll('.trivia-option')];
+
+    optionButtons.forEach((b, idx) => {
+      b.disabled = true;
+      if (idx === q.correct) b.classList.add('correct');
+      else if (idx === i) b.classList.add('incorrect');
+    });
+
+    if (i === q.correct) correctCount += 1;
+
+    explainEl.textContent = q.explain;
+    explainEl.style.display = 'block';
+    nextBtn.textContent = current + 1 < questions.length ? 'Next question' : 'See result';
+    nextBtn.style.display = 'inline-block';
+  }
+
+  nextBtn.addEventListener('click', () => {
+    current += 1;
+    if (current < questions.length) {
+      renderQuestion();
+    } else {
+      gameEl.style.display = 'none';
+      doneEl.style.display = 'block';
+      scoreEl.textContent = `${correctCount} / ${questions.length}`;
+    }
+  });
+
+  fetch('/data/trivia-questions.json')
+    .then((r) => r.json())
+    .then((data) => {
+      questions = pickDailyQuestions(data.questions || []);
+      loadingEl.style.display = 'none';
+      if (!questions.length) {
+        gameEl.innerHTML = '<p class="fine-print">No trivia questions available right now.</p>';
+        gameEl.style.display = 'block';
+        return;
+      }
+      gameEl.style.display = 'block';
+      renderQuestion();
+    })
+    .catch(() => {
+      loadingEl.textContent = "Couldn't load today's questions - try refreshing.";
+    });
+})();
+</script>
+</body>
+</html>
