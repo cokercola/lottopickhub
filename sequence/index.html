@@ -76,6 +76,16 @@
   let accepting = false;
   let muted = localStorage.getItem(MUTED_KEY) === 'true';
 
+  // Bumped every time a new game starts (or a game ends on a wrong
+  // guess). Any async work in flight from a PREVIOUS game/round - a
+  // pending setTimeout, an in-progress playSequence loop - captures
+  // the epoch it belongs to and checks it's still current before
+  // touching shared state. Without this, starting a new game while
+  // an old round's timers were still resolving could interleave two
+  // "games" at once and leave the board stuck - this is what was
+  // behind the reset not working.
+  let gameEpoch = 0;
+
   function loadBest() {
     const v = Number(localStorage.getItem(BEST_KEY) || '0');
     bestEl.textContent = v;
@@ -94,9 +104,17 @@
   function ensureAudioCtx() {
     if (!audioCtx) {
       const AC = window.AudioContext || window.webkitAudioContext;
-      if (AC) audioCtx = new AC();
+      if (AC) {
+        try {
+          audioCtx = new AC();
+        } catch (e) {
+          console.warn('Sequence game: AudioContext unavailable', e);
+        }
+      }
     }
-    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume().catch((e) => console.warn('Sequence game: could not resume audio', e));
+    }
     return audioCtx;
   }
 
@@ -104,42 +122,48 @@
     if (muted) return;
     const ctx = ensureAudioCtx();
     if (!ctx) return;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = 'sine';
-    osc.frequency.value = frequency;
-    osc.connect(gain);
-    gain.connect(ctx.destination);
+    try {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = frequency;
+      osc.connect(gain);
+      gain.connect(ctx.destination);
 
-    const now = ctx.currentTime;
-    const seconds = durationMs / 1000;
-    // Quick attack, gentle decay to zero so each tone reads as a clean
-    // "blip" instead of clicking on/off at full volume.
-    gain.gain.setValueAtTime(0, now);
-    gain.gain.linearRampToValueAtTime(0.2, now + 0.02);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + seconds);
+      const now = ctx.currentTime;
+      const seconds = durationMs / 1000;
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(0.35, now + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + seconds);
 
-    osc.start(now);
-    osc.stop(now + seconds);
+      osc.start(now);
+      osc.stop(now + seconds);
+    } catch (e) {
+      console.warn('Sequence game: tone playback failed', e);
+    }
   }
 
   function playErrorTone() {
     if (muted) return;
     const ctx = ensureAudioCtx();
     if (!ctx) return;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = 'sawtooth';
-    osc.frequency.value = 110; // low buzz, distinct from the tile tones
-    osc.connect(gain);
-    gain.connect(ctx.destination);
+    try {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.value = 110; // low buzz, distinct from the tile tones
+      osc.connect(gain);
+      gain.connect(ctx.destination);
 
-    const now = ctx.currentTime;
-    gain.gain.setValueAtTime(0.2, now);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.4);
+      const now = ctx.currentTime;
+      gain.gain.setValueAtTime(0.35, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.4);
 
-    osc.start(now);
-    osc.stop(now + 0.4);
+      osc.start(now);
+      osc.stop(now + 0.4);
+    } catch (e) {
+      console.warn('Sequence game: error tone failed', e);
+    }
   }
 
   function flashTile(index, duration) {
@@ -154,14 +178,19 @@
     });
   }
 
-  async function playSequence() {
+  async function playSequence(epoch) {
     accepting = false;
     statusEl.textContent = 'Watch closely...';
     await new Promise((r) => setTimeout(r, 500));
+    if (epoch !== gameEpoch) return; // a new game started while we waited
+
     const speed = Math.max(280, 550 - sequence.length * 15);
     for (const step of sequence) {
+      if (epoch !== gameEpoch) return;
       await flashTile(step, speed);
     }
+    if (epoch !== gameEpoch) return;
+
     accepting = true;
     userStep = 0;
     statusEl.textContent = 'Your turn - repeat the pattern.';
@@ -170,10 +199,15 @@
   function nextRound() {
     sequence.push(Math.floor(Math.random() * 4));
     roundEl.textContent = sequence.length;
-    playSequence();
+    playSequence(gameEpoch);
+  }
+
+  function resetBoard() {
+    tiles.forEach((t) => t.classList.remove('active'));
   }
 
   function gameOver() {
+    gameEpoch += 1; // invalidate any timers still pending from this round
     accepting = false;
     playErrorTone();
     const score = sequence.length - 1;
@@ -200,7 +234,10 @@
         if (userStep === sequence.length) {
           accepting = false;
           statusEl.textContent = 'Nice! Next round...';
-          setTimeout(nextRound, 700);
+          const epoch = gameEpoch;
+          setTimeout(() => {
+            if (epoch === gameEpoch) nextRound();
+          }, 700);
         }
       } else {
         gameOver();
@@ -210,7 +247,11 @@
 
   startBtn.addEventListener('click', () => {
     ensureAudioCtx(); // unlock audio here, on a direct user gesture
+    gameEpoch += 1;   // fresh game - invalidates anything left over
+    resetBoard();
     sequence = [];
+    userStep = 0;
+    accepting = false;
     startBtn.style.display = 'none';
     nextRound();
   });
