@@ -958,3 +958,90 @@ a { color: inherit; }
   margin-left: auto;
   color: var(--text-muted);
 }
+/* --- Sequence memory game --- */
+.seq-scoreboard {
+  display: flex;
+  gap: 32px;
+  text-align: center;
+}
+.seq-scoreboard-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-faint);
+  margin: 0 0 2px;
+}
+.seq-scoreboard-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--navy);
+  margin: 0;
+}
+.seq-board {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  width: 240px;
+  height: 240px;
+}
+.seq-tile {
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  opacity: 0.45;
+  transition: opacity 0.1s ease;
+  padding: 0;
+}
+.seq-tile:hover { opacity: 0.6; }
+.seq-tile.active { opacity: 1; }
+.seq-tile-0 { background: var(--gold); border-top-left-radius: 60px; }
+.seq-tile-1 { background: var(--red); border-top-right-radius: 60px; }
+.seq-tile-2 { background: var(--navy); border-bottom-left-radius: 60px; }
+.seq-tile-3 { background: #5C6B8A; border-bottom-right-radius: 60px; }
+
+/* --- Daily trivia game --- */
+.trivia-question {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 8px 0 16px;
+}
+.trivia-option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: var(--white);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--navy);
+  cursor: pointer;
+}
+.trivia-option:hover:not(:disabled) { border-color: var(--gold); }
+.trivia-option:disabled { cursor: default; }
+.trivia-option.correct {
+  border-color: var(--gold);
+  background: #FFF3D0;
+  font-weight: 700;
+}
+.trivia-option.incorrect {
+  border-color: var(--red);
+  background: #FBE7E7;
+}
+.trivia-explain {
+  font-size: 13px;
+  color: var(--text-muted);
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-top: 4px;
+}
+.trivia-score {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--navy);
+  margin: 4px 0 8px;
+}
