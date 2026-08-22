@@ -15,7 +15,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install dependencies
-        run: pip install requests
+        run: pip install requests beautifulsoup4
       - name: Fetch NY Pick 3 results
         run: python scripts/fetch_pick3_results_ny.py
       - name: Commit updated data
