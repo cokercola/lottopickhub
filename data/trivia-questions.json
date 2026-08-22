@@ -1,0 +1,76 @@
+{
+  "questions": [
+    {
+      "q": "In what year did Powerball hold its very first drawing?",
+      "options": ["1987", "1992", "1998", "2004"],
+      "correct": 1,
+      "explain": "Powerball's first drawing was on April 22, 1992. A player from Indiana won the $5.9 million jackpot."
+    },
+    {
+      "q": "Mega Millions launched in 1996 under a different name. What was it called?",
+      "options": ["The Big Game", "Lotto America", "Cash Explosion", "The Jackpot Club"],
+      "correct": 0,
+      "explain": "It ran as \"The Big Game\" starting in 1996 before being rebranded Mega Millions in 2002."
+    },
+    {
+      "q": "What are the odds of matching all numbers to win the Powerball jackpot (current 69/26 format)?",
+      "options": ["1 in 12 million", "1 in 100 million", "1 in 292 million", "1 in 1 billion"],
+      "correct": 2,
+      "explain": "About 1 in 292.2 million, based on Powerball's current 69 white-ball / 26 red-ball matrix in place since 2015."
+    },
+    {
+      "q": "What is the largest lottery jackpot ever won in U.S. history?",
+      "options": ["$1.586 billion (Powerball, 2016)", "$2.04 billion (Powerball, 2022)", "$1.602 billion (Mega Millions, 2023)", "$1.765 billion (Powerball, 2023)"],
+      "correct": 1,
+      "explain": "A single ticket sold in Altadena, California won the record $2.04 billion Powerball jackpot on November 7, 2022."
+    },
+    {
+      "q": "The largest Mega Millions jackpot ever won ($1.602 billion, August 2023) was sold in which state?",
+      "options": ["Florida", "Texas", "New York", "Illinois"],
+      "correct": 0,
+      "explain": "The winning ticket was sold in Florida, and the winner chose the roughly $794.2 million cash option."
+    },
+    {
+      "q": "How many U.S. states do not sell any state lottery tickets at all?",
+      "options": ["2", "5", "8", "12"],
+      "correct": 1,
+      "explain": "Five states currently have no state lottery: Alabama, Alaska, Hawaii, Nevada, and Utah."
+    },
+    {
+      "q": "Which of these states does NOT have a state lottery?",
+      "options": ["Georgia", "Ohio", "Utah", "Texas"],
+      "correct": 2,
+      "explain": "Utah is one of only five U.S. states with no state lottery, alongside Alabama, Alaska, Hawaii, and Nevada."
+    },
+    {
+      "q": "How many white balls does Powerball currently draw its five main numbers from?",
+      "options": ["49", "59", "69", "75"],
+      "correct": 2,
+      "explain": "Powerball has drawn its five main numbers from a pool of 69 white balls since the October 2015 format change."
+    },
+    {
+      "q": "Mega Millions relaunched with a new format in April 2025. What did the ticket price become?",
+      "options": ["$1", "$2", "$5", "$10"],
+      "correct": 2,
+      "explain": "The April 2025 relaunch raised the ticket price to $5 and set a $50 million starting jackpot."
+    },
+    {
+      "q": "In Pick 3 and Pick 4 games, what does an add-on like \"Fireball\" generally do?",
+      "options": ["Doubles your ticket cost automatically", "Draws one extra bonus digit that can substitute into your numbers for more ways to match", "Guarantees a prize", "Only applies to jackpot games like Powerball"],
+      "correct": 1,
+      "explain": "Add-ons like Fireball draw one extra digit that can be swapped in for one of your picked digits, creating more ways to match \u2014 it doesn't change your odds of the base draw itself."
+    },
+    {
+      "q": "What was the winning amount of the very first Powerball jackpot in 1992?",
+      "options": ["$1.2 million", "$5.9 million", "$22 million", "$50 million"],
+      "correct": 1,
+      "explain": "The first Powerball jackpot was $5.9 million, won by a player from Indiana."
+    },
+    {
+      "q": "In what year was \"The Big Game\" rebranded as Mega Millions?",
+      "options": ["1998", "2002", "2009", "2015"],
+      "correct": 1,
+      "explain": "The rebrand to Mega Millions happened in 2002."
+    }
+  ]
+}
