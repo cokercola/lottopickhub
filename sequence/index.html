@@ -43,7 +43,10 @@
     </div>
 
     <p class="fine-print" id="seq-status">Press start when you're ready.</p>
-    <button class="btn-gold" id="seq-start-btn">Start</button>
+    <div class="quick-pick-actions">
+      <button class="btn-gold" id="seq-start-btn">Start</button>
+      <button class="btn-gold" id="seq-mute-btn" style="background:var(--white); border:1px solid var(--panel-border); color:var(--navy);" aria-label="Mute sound">🔊</button>
+    </div>
   </div>
 
   <div class="section-divider"></div>
@@ -60,15 +63,18 @@
 <script>
 (function () {
   const BEST_KEY = 'lph_sequence_best';
+  const MUTED_KEY = 'lph_sequence_muted';
   const tiles = [...document.querySelectorAll('.seq-tile')];
   const statusEl = document.getElementById('seq-status');
   const roundEl = document.getElementById('seq-round');
   const bestEl = document.getElementById('seq-best');
   const startBtn = document.getElementById('seq-start-btn');
+  const muteBtn = document.getElementById('seq-mute-btn');
 
   let sequence = [];
   let userStep = 0;
   let accepting = false;
+  let muted = localStorage.getItem(MUTED_KEY) === 'true';
 
   function loadBest() {
     const v = Number(localStorage.getItem(BEST_KEY) || '0');
@@ -77,10 +83,70 @@
   }
   let best = loadBest();
 
+  // Tones are generated with the Web Audio API rather than audio files -
+  // one distinct pitch per tile (a rising arpeggio, same trick the
+  // original Simon toy used), plus a low buzz for a wrong guess. The
+  // AudioContext is created lazily on the first Start click, since
+  // browsers block audio from starting before any user interaction.
+  const TILE_FREQUENCIES = [261.63, 329.63, 392.0, 523.25]; // C4, E4, G4, C5
+  let audioCtx = null;
+
+  function ensureAudioCtx() {
+    if (!audioCtx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (AC) audioCtx = new AC();
+    }
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+  }
+
+  function playTone(frequency, durationMs) {
+    if (muted) return;
+    const ctx = ensureAudioCtx();
+    if (!ctx) return;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = frequency;
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    const now = ctx.currentTime;
+    const seconds = durationMs / 1000;
+    // Quick attack, gentle decay to zero so each tone reads as a clean
+    // "blip" instead of clicking on/off at full volume.
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.2, now + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + seconds);
+
+    osc.start(now);
+    osc.stop(now + seconds);
+  }
+
+  function playErrorTone() {
+    if (muted) return;
+    const ctx = ensureAudioCtx();
+    if (!ctx) return;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.value = 110; // low buzz, distinct from the tile tones
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    const now = ctx.currentTime;
+    gain.gain.setValueAtTime(0.2, now);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.4);
+
+    osc.start(now);
+    osc.stop(now + 0.4);
+  }
+
   function flashTile(index, duration) {
     return new Promise((resolve) => {
       const tile = tiles[index];
       tile.classList.add('active');
+      playTone(TILE_FREQUENCIES[index], Math.min(duration, 350));
       setTimeout(() => {
         tile.classList.remove('active');
         setTimeout(resolve, 150);
@@ -109,6 +175,7 @@
 
   function gameOver() {
     accepting = false;
+    playErrorTone();
     const score = sequence.length - 1;
     if (score > best) {
       best = score;
@@ -142,9 +209,17 @@
   });
 
   startBtn.addEventListener('click', () => {
+    ensureAudioCtx(); // unlock audio here, on a direct user gesture
     sequence = [];
     startBtn.style.display = 'none';
     nextRound();
+  });
+
+  muteBtn.textContent = muted ? '🔇' : '🔊';
+  muteBtn.addEventListener('click', () => {
+    muted = !muted;
+    localStorage.setItem(MUTED_KEY, String(muted));
+    muteBtn.textContent = muted ? '🔇' : '🔊';
   });
 })();
 </script>
