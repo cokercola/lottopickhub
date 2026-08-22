@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FP60XF0554"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FP60XF0554');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sequence Memory Game | LottoPickHub</title>
+<meta name="description" content="A free Simon-style sequence memory game. Just for fun, no real prizes, nothing to buy — a quick break between checking your numbers.">
+<link rel="canonical" href="https://lottopickhub.com/sequence/">
+<link rel="icon" type="image/png" href="/assets/lottopickhub-icon.png">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<div id="site-header"></div>
+<div class="page-shell">
+<div class="card">
+
+  <div class="breadcrumb"><a href="/">Home</a> / <span class="current">Sequence memory</span></div>
+
+  <div class="hero">
+    <h1>Sequence memory</h1>
+    <p>Watch the pattern, then repeat it back. Each round adds one more step. Just for fun — no real prizes, nothing to buy, nothing to win.</p>
+  </div>
+
+  <div class="section" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+    <div class="seq-scoreboard">
+      <div><p class="seq-scoreboard-label">Round</p><p class="seq-scoreboard-value" id="seq-round">-</p></div>
+      <div><p class="seq-scoreboard-label">Best</p><p class="seq-scoreboard-value" id="seq-best">0</p></div>
+    </div>
+
+    <div class="seq-board" id="seq-board">
+      <button class="seq-tile seq-tile-0" data-tile="0" aria-label="Tile 1"></button>
+      <button class="seq-tile seq-tile-1" data-tile="1" aria-label="Tile 2"></button>
+      <button class="seq-tile seq-tile-2" data-tile="2" aria-label="Tile 3"></button>
+      <button class="seq-tile seq-tile-3" data-tile="3" aria-label="Tile 4"></button>
+    </div>
+
+    <p class="fine-print" id="seq-status">Press start when you're ready.</p>
+    <button class="btn-gold" id="seq-start-btn">Start</button>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <div class="section">
+    <p class="fine-print">This is a just-for-fun distraction, not a lottery product. It doesn't cost anything, pays out nothing, and has no connection to any real drawing or prize.</p>
+  </div>
+
+</div>
+</div>
+<script src="/assets/site.js"></script>
+<script src="/assets/donate.js"></script>
+<script src="/assets/header.js"></script>
+<script>
+(function () {
+  const BEST_KEY = 'lph_sequence_best';
+  const tiles = [...document.querySelectorAll('.seq-tile')];
+  const statusEl = document.getElementById('seq-status');
+  const roundEl = document.getElementById('seq-round');
+  const bestEl = document.getElementById('seq-best');
+  const startBtn = document.getElementById('seq-start-btn');
+
+  let sequence = [];
+  let userStep = 0;
+  let accepting = false;
+
+  function loadBest() {
+    const v = Number(localStorage.getItem(BEST_KEY) || '0');
+    bestEl.textContent = v;
+    return v;
+  }
+  let best = loadBest();
+
+  function flashTile(index, duration) {
+    return new Promise((resolve) => {
+      const tile = tiles[index];
+      tile.classList.add('active');
+      setTimeout(() => {
+        tile.classList.remove('active');
+        setTimeout(resolve, 150);
+      }, duration);
+    });
+  }
+
+  async function playSequence() {
+    accepting = false;
+    statusEl.textContent = 'Watch closely...';
+    await new Promise((r) => setTimeout(r, 500));
+    const speed = Math.max(280, 550 - sequence.length * 15);
+    for (const step of sequence) {
+      await flashTile(step, speed);
+    }
+    accepting = true;
+    userStep = 0;
+    statusEl.textContent = 'Your turn - repeat the pattern.';
+  }
+
+  function nextRound() {
+    sequence.push(Math.floor(Math.random() * 4));
+    roundEl.textContent = sequence.length;
+    playSequence();
+  }
+
+  function gameOver() {
+    accepting = false;
+    const score = sequence.length - 1;
+    if (score > best) {
+      best = score;
+      localStorage.setItem(BEST_KEY, String(best));
+      bestEl.textContent = best;
+      statusEl.textContent = `New best! You got to round ${score}.`;
+    } else {
+      statusEl.textContent = `Round ${score} - want another go?`;
+    }
+    startBtn.textContent = 'Try again';
+    startBtn.style.display = 'inline-block';
+    roundEl.textContent = '-';
+  }
+
+  tiles.forEach((tile) => {
+    tile.addEventListener('click', () => {
+      if (!accepting) return;
+      const idx = Number(tile.dataset.tile);
+      flashTile(idx, 200);
+      if (idx === sequence[userStep]) {
+        userStep += 1;
+        if (userStep === sequence.length) {
+          accepting = false;
+          statusEl.textContent = 'Nice! Next round...';
+          setTimeout(nextRound, 700);
+        }
+      } else {
+        gameOver();
+      }
+    });
+  });
+
+  startBtn.addEventListener('click', () => {
+    sequence = [];
+    startBtn.style.display = 'none';
+    nextRound();
+  });
+})();
+</script>
+</body>
+</html>
