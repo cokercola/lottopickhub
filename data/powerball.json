@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-25T05:53:21.388914Z",
+  "updated_at": "2026-08-27T16:35:09.737339Z",
   "game": {
     "name": "Powerball",
     "white_ball_count": 5,
@@ -7,16 +7,16 @@
     "red_ball_max": 26
   },
   "latest_draw": {
-    "draw_date": "2026-08-22",
+    "draw_date": "2026-08-26",
     "white_balls": [
-      13,
-      31,
-      54,
-      57,
-      65
+      12,
+      32,
+      45,
+      50,
+      58
     ],
-    "powerball": 23,
-    "multiplier": "3"
+    "powerball": 2,
+    "multiplier": "2"
   },
   "last_jackpot": {
     "date": "2026-06-14",
@@ -24,8 +24,12 @@
     "note": "Manually maintained - see script docstring."
   },
   "stats_since_jackpot": {
-    "draws_since_jackpot": 30,
+    "draws_since_jackpot": 32,
     "most_drawn": [
+      {
+        "number": 50,
+        "count": 6
+      },
       {
         "number": 14,
         "count": 5
@@ -35,12 +39,12 @@
         "count": 5
       },
       {
-        "number": 50,
+        "number": 59,
         "count": 5
       },
       {
-        "number": 59,
-        "count": 5
+        "number": 3,
+        "count": 4
       },
       {
         "number": 5,
@@ -55,15 +59,11 @@
         "count": 4
       },
       {
+        "number": 16,
+        "count": 4
+      },
+      {
         "number": 17,
-        "count": 4
-      },
-      {
-        "number": 26,
-        "count": 4
-      },
-      {
-        "number": 44,
         "count": 4
       }
     ],
@@ -71,14 +71,36 @@
       1,
       11,
       23,
-      32,
-      33,
       34,
       51,
       52
     ]
   },
   "recent_draws": [
+    {
+      "draw_date": "2026-08-26",
+      "white_balls": [
+        12,
+        32,
+        45,
+        50,
+        58
+      ],
+      "powerball": 2,
+      "multiplier": "2"
+    },
+    {
+      "draw_date": "2026-08-24",
+      "white_balls": [
+        3,
+        16,
+        33,
+        38,
+        68
+      ],
+      "powerball": 2,
+      "multiplier": "2"
+    },
     {
       "draw_date": "2026-08-22",
       "white_balls": [
@@ -2454,30 +2476,6 @@
       ],
       "powerball": 11,
       "multiplier": "2"
-    },
-    {
-      "draw_date": "2025-05-17",
-      "white_balls": [
-        7,
-        34,
-        40,
-        42,
-        52
-      ],
-      "powerball": 15,
-      "multiplier": "2"
-    },
-    {
-      "draw_date": "2025-05-14",
-      "white_balls": [
-        4,
-        10,
-        24,
-        29,
-        53
-      ],
-      "powerball": 4,
-      "multiplier": "3"
     }
   ]
 }
