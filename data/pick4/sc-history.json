@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-26T19:27:12.147258Z",
+  "updated_at": "2026-08-27T04:11:22.374865Z",
   "state": "sc",
   "note": "Built incrementally by scraping the recent-draws section of the official SC Pick 4 page each run - no bulk history export exists for this state, so history grows over time rather than starting complete.",
   "draws": [
@@ -244,6 +244,17 @@
         4
       ],
       "fireball": 2
+    },
+    {
+      "draw_date": "2026-08-26",
+      "draw_time": "evening",
+      "digits": [
+        3,
+        2,
+        8,
+        8
+      ],
+      "fireball": 4
     },
     {
       "draw_date": "2026-08-26",
