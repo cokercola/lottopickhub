@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-26T22:24:16.077940Z",
+  "updated_at": "2026-08-27T15:23:36.333221Z",
   "state": "ny",
   "note": "Built incrementally by scraping nylottery.org's results page each run (a third-party site, not data.ny.gov's official but laggy open-data export) - no deep bulk history from this source, so history grows over time rather than starting complete. NY's Numbers game has no Fireball-equivalent bonus digit.",
   "draws": [
@@ -14680,6 +14680,16 @@
         6,
         8,
         2
+      ],
+      "fireball": null
+    },
+    {
+      "draw_date": "2026-08-26",
+      "draw_time": "evening",
+      "digits": [
+        0,
+        6,
+        8
       ],
       "fireball": null
     },
