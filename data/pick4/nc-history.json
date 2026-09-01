@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-01T09:30:18.581488Z",
+  "updated_at": "2026-09-01T21:54:11.528749Z",
   "state": "nc",
   "note": "Last 2 years of NC Pick 4 draws. Fireball is null on draws from before NC added it.",
   "draws": [
@@ -16062,6 +16062,17 @@
         8
       ],
       "fireball": 4
+    },
+    {
+      "draw_date": "2026-09-01",
+      "draw_time": "midday",
+      "digits": [
+        7,
+        7,
+        9,
+        5
+      ],
+      "fireball": 0
     }
   ]
 }
