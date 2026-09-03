@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-09-02T20:54:45.804409Z",
-  "jackpot": "$146 Million",
-  "cash_value": "$63.3 Million",
-  "next_drawing_date": "2026-09-02",
+  "updated_at": "2026-09-03T04:05:55.687013Z",
+  "jackpot": "$173 Million",
+  "cash_value": "$75.0 Million",
+  "next_drawing_date": "2026-09-05",
   "next_drawing_date_source": "computed_from_schedule",
   "double_play": null
 }
