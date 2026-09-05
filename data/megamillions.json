@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-02T09:49:01.966343Z",
+  "updated_at": "2026-09-05T08:29:09.625556Z",
   "game": {
     "name": "Mega Millions",
     "white_ball_count": 5,
@@ -7,15 +7,15 @@
     "red_ball_max": 24
   },
   "latest_draw": {
-    "draw_date": "2026-09-01",
+    "draw_date": "2026-09-04",
     "white_balls": [
-      1,
-      22,
-      51,
-      61,
-      63
+      6,
+      26,
+      34,
+      59,
+      61
     ],
-    "powerball": 17,
+    "powerball": 24,
     "multiplier": null
   },
   "last_jackpot": {
@@ -24,10 +24,14 @@
     "note": "Manually maintained - see script docstring."
   },
   "stats_since_jackpot": {
-    "draws_since_jackpot": 11,
+    "draws_since_jackpot": 12,
     "most_drawn": [
       {
         "number": 1,
+        "count": 3
+      },
+      {
+        "number": 34,
         "count": 3
       },
       {
@@ -39,6 +43,10 @@
         "count": 3
       },
       {
+        "number": 59,
+        "count": 3
+      },
+      {
         "number": 17,
         "count": 2
       },
@@ -47,29 +55,20 @@
         "count": 2
       },
       {
-        "number": 30,
+        "number": 26,
         "count": 2
       },
       {
-        "number": 34,
+        "number": 30,
         "count": 2
       },
       {
         "number": 46,
         "count": 2
-      },
-      {
-        "number": 55,
-        "count": 2
-      },
-      {
-        "number": 57,
-        "count": 2
       }
     ],
     "not_drawn": [
       2,
-      6,
       9,
       11,
       12,
@@ -100,6 +99,18 @@
     ]
   },
   "recent_draws": [
+    {
+      "draw_date": "2026-09-04",
+      "white_balls": [
+        6,
+        26,
+        34,
+        59,
+        61
+      ],
+      "powerball": 24,
+      "multiplier": null
+    },
     {
       "draw_date": "2026-09-01",
       "white_balls": [
@@ -2487,18 +2498,6 @@
       ],
       "powerball": 9,
       "multiplier": "03"
-    },
-    {
-      "draw_date": "2024-10-04",
-      "white_balls": [
-        21,
-        39,
-        42,
-        43,
-        45
-      ],
-      "powerball": 3,
-      "multiplier": "02"
     }
   ]
 }
