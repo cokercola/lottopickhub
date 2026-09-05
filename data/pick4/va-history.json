@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-04T21:40:29.005377Z",
+  "updated_at": "2026-09-05T08:27:02.205174Z",
   "state": "va",
   "note": "VA Pick 4, full history as returned by the Virginia Lottery API. Fireball included for both draws.",
   "draws": [
@@ -42902,6 +42902,28 @@
         7
       ],
       "fireball": 5
+    },
+    {
+      "draw_date": "2026-09-04",
+      "draw_time": "evening",
+      "digits": [
+        4,
+        0,
+        7,
+        1
+      ],
+      "fireball": 8
+    },
+    {
+      "draw_date": "2026-09-04",
+      "draw_time": "midday",
+      "digits": [
+        9,
+        5,
+        4,
+        5
+      ],
+      "fireball": 6
     }
   ]
 }
