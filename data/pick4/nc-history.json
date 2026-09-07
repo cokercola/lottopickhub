@@ -1,31 +1,9 @@
 {
-  "updated_at": "2026-09-06T21:32:24.593035Z",
+  "updated_at": "2026-09-07T09:30:28.984424Z",
   "state": "nc",
   "note": "Last 2 years of NC Pick 4 draws. Fireball is null on draws from before NC added it.",
   "draws": [
     {
-      "draw_date": "2024-09-06",
-      "draw_time": "evening",
-      "digits": [
-        6,
-        6,
-        8,
-        8
-      ],
-      "fireball": 1
-    },
-    {
-      "draw_date": "2024-09-06",
-      "draw_time": "midday",
-      "digits": [
-        9,
-        6,
-        2,
-        2
-      ],
-      "fireball": 8
-    },
-    {
       "draw_date": "2024-09-07",
       "draw_time": "evening",
       "digits": [
@@ -16062,6 +16040,17 @@
         9
       ],
       "fireball": 2
+    },
+    {
+      "draw_date": "2026-09-06",
+      "draw_time": "evening",
+      "digits": [
+        5,
+        3,
+        6,
+        0
+      ],
+      "fireball": 6
     },
     {
       "draw_date": "2026-09-06",
