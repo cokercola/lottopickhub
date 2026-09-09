@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-05T09:13:20.211015Z",
+  "updated_at": "2026-09-09T09:04:37.829694Z",
   "game": {
     "name": "Mega Millions",
     "white_ball_count": 5,
@@ -7,15 +7,15 @@
     "red_ball_max": 24
   },
   "latest_draw": {
-    "draw_date": "2026-09-04",
+    "draw_date": "2026-09-08",
     "white_balls": [
-      6,
-      26,
-      34,
-      59,
-      61
+      17,
+      30,
+      43,
+      58,
+      66
     ],
-    "powerball": 24,
+    "powerball": 20,
     "multiplier": null
   },
   "last_jackpot": {
@@ -24,10 +24,18 @@
     "note": "Manually maintained - see script docstring."
   },
   "stats_since_jackpot": {
-    "draws_since_jackpot": 12,
+    "draws_since_jackpot": 13,
     "most_drawn": [
       {
         "number": 1,
+        "count": 3
+      },
+      {
+        "number": 17,
+        "count": 3
+      },
+      {
+        "number": 30,
         "count": 3
       },
       {
@@ -47,10 +55,6 @@
         "count": 3
       },
       {
-        "number": 17,
-        "count": 2
-      },
-      {
         "number": 20,
         "count": 2
       },
@@ -59,11 +63,7 @@
         "count": 2
       },
       {
-        "number": 30,
-        "count": 2
-      },
-      {
-        "number": 46,
+        "number": 43,
         "count": 2
       }
     ],
@@ -90,15 +90,25 @@
       52,
       53,
       56,
-      58,
       62,
       64,
-      66,
       67,
       69
     ]
   },
   "recent_draws": [
+    {
+      "draw_date": "2026-09-08",
+      "white_balls": [
+        17,
+        30,
+        43,
+        58,
+        66
+      ],
+      "powerball": 20,
+      "multiplier": null
+    },
     {
       "draw_date": "2026-09-04",
       "white_balls": [
@@ -2485,18 +2495,6 @@
         57
       ],
       "powerball": 20,
-      "multiplier": "03"
-    },
-    {
-      "draw_date": "2024-10-08",
-      "white_balls": [
-        3,
-        19,
-        20,
-        22,
-        66
-      ],
-      "powerball": 9,
       "multiplier": "03"
     }
   ]
