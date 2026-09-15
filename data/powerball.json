@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-13T10:23:27.538456Z",
+  "updated_at": "2026-09-15T09:30:18.354408Z",
   "game": {
     "name": "Powerball",
     "white_ball_count": 5,
@@ -7,15 +7,15 @@
     "red_ball_max": 26
   },
   "latest_draw": {
-    "draw_date": "2026-09-12",
+    "draw_date": "2026-09-14",
     "white_balls": [
-      14,
-      16,
-      23,
-      58,
-      69
+      19,
+      20,
+      57,
+      61,
+      67
     ],
-    "powerball": 3,
+    "powerball": 22,
     "multiplier": "2"
   },
   "last_jackpot": {
@@ -24,7 +24,7 @@
     "note": "Manually maintained - see script docstring."
   },
   "stats_since_jackpot": {
-    "draws_since_jackpot": 39,
+    "draws_since_jackpot": 40,
     "most_drawn": [
       {
         "number": 14,
@@ -75,6 +75,18 @@
     ]
   },
   "recent_draws": [
+    {
+      "draw_date": "2026-09-14",
+      "white_balls": [
+        19,
+        20,
+        57,
+        61,
+        67
+      ],
+      "powerball": 22,
+      "multiplier": "2"
+    },
     {
       "draw_date": "2026-09-12",
       "white_balls": [
@@ -2462,18 +2474,6 @@
       ],
       "powerball": 25,
       "multiplier": "2"
-    },
-    {
-      "draw_date": "2025-06-04",
-      "white_balls": [
-        5,
-        17,
-        23,
-        35,
-        45
-      ],
-      "powerball": 24,
-      "multiplier": "10"
     }
   ]
 }
